@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.vladmihalcea</groupId>
+    <artifactId>reservoir-sampling-benchmark</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>reservoir-sampling-benchmark</name>
+    <description>
+        Benchmarks comparing reservoir sampling strategies used by production metrics frameworks
+        (Dropwizard, Micrometer, Prometheus/CKMS, VictoriaMetrics) against the academic literature.
+        Supports the ICASC 2026 survey "Reservoir Sampling Techniques in Production Metrics
+        Frameworks: Theory vs. Practice".
+    </description>
+
+    <modules>
+        <module>core</module>
+    </modules>
+
+    <properties>
+        <jdk.version>21</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Plugin versions (no Spring Boot parent to inherit from) -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.5.5</maven-failsafe-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+
+        <!-- Benchmark tooling -->
+        <jmh.version>1.37</jmh.version>
+        <jol.version>0.17</jol.version>
+
+        <!-- Metrics frameworks under study -->
+        <dropwizard-metrics.version>4.2.28</dropwizard-metrics.version>
+        <hdrhistogram.version>2.2.2</hdrhistogram.version>
+        <micrometer.version>1.16.5</micrometer.version>
+        <prometheus-metrics.version>1.4.3</prometheus-metrics.version>
+
+        <!-- Testing / logging -->
+        <junit.version>5.11.4</junit.version>
+        <slf4j.version>2.0.16</slf4j.version>
+        <logback.version>1.5.18</logback.version>
+
+        <!-- Build switches (mirrors the dto-entity-auto-sync convention) -->
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.benchmark.tests>true</skip.benchmark.tests>
+        <console.log.level>INFO</console.log.level>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <release>${jdk.version}</release>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.openjdk.jmh</groupId>
+                                <artifactId>jmh-generator-annprocess</artifactId>
+                                <version>${jmh.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <skipTests>${skip.unit.tests}</skipTests>
+                        <skip>${skip.unit.tests}</skip>
+                        <excludes>
+                            <exclude>**/*BenchmarkTest.java</exclude>
+                            <exclude>**/*ExperimentTest.java</exclude>
+                            <exclude>**/*ReportTest.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <skipTests>${skip.benchmark.tests}</skipTests>
+                                <includes>
+                                    <include>**/*BenchmarkTest.java</include>
+                                    <include>**/*ExperimentTest.java</include>
+                                    <include>**/*ReportTest.java</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>benchmark-tests</id>
+            <properties>
+                <skip.benchmark.tests>false</skip.benchmark.tests>
+                <skip.unit.tests>true</skip.unit.tests>
+                <console.log.level>WARN</console.log.level>
+            </properties>
+        </profile>
+    </profiles>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+</project>

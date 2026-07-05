@@ -1,0 +1,29 @@
+Gnuplot conventions for this repository (mirrors the dto-entity-auto-sync template)
+====================================================================================
+
+- One subfolder per figure under metrics/, each holding <figure>.csv, <figure>.gp and the
+  rendered <figure>.svg / <figure>.pdf.
+- CSVs are chart-ready "wide" form (a header row, then one row per x-category and one column
+  per data series) so gnuplot's `columnheader` / `xtic(1)` can label everything automatically.
+- Each .gp renders BOTH an SVG (slides/web) and a PDF (IEEE camera-ready) in a single run.
+- Clustered bars use `set style histogram clustered`; sweeps use `with linespoints`.
+- Material Design palette for series colours:
+    blue   #1565C0 / #64B5F6
+    green  #2E7D32 / #81C784
+    red    #C62828 / #E57373
+    amber  #F9A825    purple #6A1B9A    teal #00838F
+
+Reference clustered-bar skeleton (wide CSV: col 1 = category label, cols 2..N = series):
+
+    set datafile separator ","
+    set style data histograms
+    set style histogram clustered gap 1
+    set style fill solid 0.9 border -1
+    set boxwidth 0.9
+    set xtics rotate by -40
+    plot for [i=2:N] 'figure.csv' using i:xtic(1) title columnheader
+
+Reference sweep skeleton (wide CSV: col 1 = x, cols 2..N = series):
+
+    set logscale x
+    plot for [i=2:N] 'figure.csv' using 1:i with linespoints title columnheader

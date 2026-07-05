@@ -1,0 +1,14 @@
+strategy,taxonomy,updates,retained_bytes
+Vitter-R,WRS-R,100000,8320
+Vitter-L-skip,WRS-R,100000,8336
+ES-A-Res,WRS-N,100000,16568
+ES-A-ExpJ,WRS-N,100000,16576
+ForwardDecay-0.015,WRS-N,100000,98888
+WRS-B,WRS-B,100000,24792
+Dropwizard-Uniform,WRS-R,100000,8328
+Dropwizard-ExpDecay,WRS-N,100000,95872
+Dropwizard-SlidingWindow,non-RS,100000,1619512
+Micrometer-Summary,non-RS,100000,-1
+Prometheus-Histogram,non-RS,100000,2648
+HdrHistogram,non-RS,100000,221808
+VictoriaMetrics,WRS-R,100000,16264

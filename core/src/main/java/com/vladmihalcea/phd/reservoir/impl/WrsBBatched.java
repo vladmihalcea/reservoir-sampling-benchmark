@@ -7,16 +7,23 @@ import com.vladmihalcea.phd.reservoir.util.Quantiles;
 import java.util.SplittableRandom;
 
 /**
- * Batched weighted reservoir sampling (WRS-B), the class Hübschle-Schneider and Sanders (ACM TOMS
- * 2022) show to be up to ~55x faster than per-element Efraimidis-Spirakis. It keeps the exact same
- * exponential-jump acceptance rule as {@link EfraimidisSpirakisAExpJ}, but consumes the input in
- * batches: the jump budget is carried across a primitive {@code long[]} buffer processed in a tight
+ * Batched reservoir sampling: the WRS-B <em>problem</em> of Hübschle-Schneider and Sanders (ACM TOMS
+ * 2022) — repeatedly solving without-replacement selection as batches of new items arrive, storing
+ * only the current sample and the batch. This is a single-threaded realization: it keeps the exact
+ * same exponential-jump acceptance rule as {@link EfraimidisSpirakisAExpJ}, but consumes the input in
+ * batches, carrying the jump budget across a primitive {@code long[]} buffer processed in a tight
  * loop, so most elements are skipped with a single subtraction and no per-element virtual dispatch,
  * heap touch or random draw.
  * <p>
+ * This is NOT the paper's Section 9 algorithm, which is distributed (local B+-tree reservoirs across
+ * processing elements combined by a multisequence distributed selection). The ~55x figure reported in
+ * that paper is for parallel alias-table construction (WRS-1, 158 threads), not sequential batched
+ * reservoir sampling. The speedup this class shows over per-element Efraimidis-Spirakis comes from
+ * sequential batching alone and is measured directly by the batched-insertion benchmark (E3). With
+ * unit weights it is the equal-weight (unweighted) case of WRS-B.
+ * <p>
  * The streaming {@link #update(long)} path buffers into {@code batchSize} chunks; the
- * {@link #updateBatch(long[], int)} entry point lets the batched-insertion benchmark (E3) feed whole
- * arrays and measure the speedup directly.
+ * {@link #updateBatch(long[], int)} entry point lets E3 feed whole arrays and measure the speedup.
  *
  * @author Vlad Mihalcea
  */

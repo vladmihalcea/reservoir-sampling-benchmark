@@ -7,11 +7,11 @@ import com.vladmihalcea.phd.reservoir.util.Quantiles;
 import java.util.SplittableRandom;
 
 /**
- * Algorithm L (Li, 1994): the standard skip-based optimisation of the uniform reservoir. Instead of
+ * Algorithm L (Li, 1994): the standard skip-based optimization of the uniform reservoir. Instead of
  * drawing a random number for every element, it draws the number of elements to skip from a
  * geometric distribution, giving {@code O(k(1 + log(n/k)))} random draws instead of {@code O(n)}.
  * <p>
- * This is the "skip optimisation" whose absence in Dropwizard the survey highlights (the point
+ * This is the "skip optimization" whose absence in Dropwizard the survey highlights (the point
  * attributed to Meligrana). It is exercised here in a push (streaming) model: {@link #update(long)}
  * decrements a running skip counter and only touches the reservoir when the counter reaches zero.
  *
@@ -87,6 +87,8 @@ public class SkipReservoirL implements SamplingStrategy {
 
     @Override
     public Taxonomy taxonomy() {
-        return Taxonomy.WRS_R;
+        // Algorithm L is uniform reservoir sampling: the equal-weight (unweighted) case of
+        // without-replacement sampling. Hübschle-Schneider and Sanders class it WRS-N, not WRS-R.
+        return Taxonomy.WRS_N;
     }
 }

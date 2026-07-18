@@ -52,6 +52,8 @@ public class DropwizardUniform implements SamplingStrategy {
 
     @Override
     public Taxonomy taxonomy() {
-        return Taxonomy.WRS_R;
+        // Delegates to Vitter Algorithm R (uniform): the equal-weight case of without-replacement
+        // sampling, WRS-N rather than WRS-R.
+        return Taxonomy.WRS_N;
     }
 }

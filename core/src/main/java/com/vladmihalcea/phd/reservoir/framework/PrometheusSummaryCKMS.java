@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * {@link Taxonomy#NON_RS}): it shows what a widely deployed framework gives up (arbitrary post-hoc
  * quantiles) and gains (bounded, deterministic error at pre-declared quantiles) by abandoning sampling.
  * <p>
- * Because CKMS materialises only the quantiles it is told to track, the queried set is fixed at
+ * Because CKMS materializes only the quantiles it is told to track, the queried set is fixed at
  * construction and {@link #valueAtQuantile(double)} returns the tracked objective nearest to {@code q},
  * exactly as an operator reading a Prometheus {@code Summary} would. The client's built-in time decay is
  * disabled here (a single, effectively unbounded age bucket) so the estimate is over the whole stream and

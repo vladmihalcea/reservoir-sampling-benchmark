@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * (C4). Three per-element baselines — Efraimidis-Spirakis A-Res, A-ExpJ, and Dropwizard's production
  * {@code ExponentiallyDecayingReservoir} — are contrasted with WRS-B fed through its streaming
  * {@code update()} path at increasing batch sizes, so the speedup can be read as a function of batch
- * granularity (larger batches amortise more per-element dispatch, heap touches and random draws). The
+ * granularity (larger batches amortize more per-element dispatch, heap touches and random draws). The
  * per-element legs are batch-size-independent and act as flat controls across the sweep.
  *
  * @author Vlad Mihalcea
@@ -37,8 +37,18 @@ public class BatchedInsertionBenchmark {
     @Param({"1000000"})
     public int n;
 
-    @Param({"1000", "10000", "100000", "1000000"})
-    public int batchSize;
+    /**
+     * Batch granularity, consumed only by {@link #batchedWrsB(BatchState)}. Held in its own state class
+     * rather than as a class-level {@code @Param} so JMH does not re-run the three batch-size-independent
+     * per-element baselines once per batch size; they are flat controls, and multiplying them out cost
+     * 18 redundant configurations per run. {@code batchSize=1} is the degenerate no-batching case, which
+     * bounds the sweep from below and shows where batching begins to pay.
+     */
+    @State(Scope.Benchmark)
+    public static class BatchState {
+        @Param({"1", "10", "100", "1000", "10000", "100000", "1000000"})
+        public int batchSize;
+    }
 
     private static final int K = 1028;
     private long[] values;
@@ -76,8 +86,8 @@ public class BatchedInsertionBenchmark {
     }
 
     @Benchmark
-    public double batchedWrsB() {
-        WrsBBatched reservoir = new WrsBBatched(K, batchSize, 3L);
+    public double batchedWrsB(BatchState batch) {
+        WrsBBatched reservoir = new WrsBBatched(K, batch.batchSize, 3L);
         for (long value : values) {
             reservoir.update(value);
         }

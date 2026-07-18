@@ -21,7 +21,7 @@ import java.util.List;
  * Experiment E6: quantile accuracy of every strategy against the exact quantile baseline, over every synthetic
  * workload and a range of stream lengths, averaged over repeated seeds with a 95% confidence interval.
  * This is the survey's headline accuracy table (claim C2). Time-aware strategies are driven from a
- * manual clock that advances evenly across the stream so their decay/window behaviour is exercised
+ * manual clock that advances evenly across the stream so their decay/window behavior is exercised
  * deterministically.
  * <p>
  * One CSV per workload is written under {@code metrics/QuantileAccuracy/}, with columns

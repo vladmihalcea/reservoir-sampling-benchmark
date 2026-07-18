@@ -1,0 +1,40 @@
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                     (batchSize)      (n)  Mode  Cnt      Score    Error  Units
+BatchedInsertionBenchmark.batchedWrsB                   1  1000000  avgt   60   3090.457 ±  7.648  us/op
+BatchedInsertionBenchmark.batchedWrsB                  10  1000000  avgt   60   1801.128 ±  2.048  us/op
+BatchedInsertionBenchmark.batchedWrsB                 100  1000000  avgt   60   1318.453 ±  1.244  us/op
+BatchedInsertionBenchmark.batchedWrsB                1000  1000000  avgt   60   1271.606 ±  1.045  us/op
+BatchedInsertionBenchmark.batchedWrsB               10000  1000000  avgt   60   1270.693 ±  7.844  us/op
+BatchedInsertionBenchmark.batchedWrsB              100000  1000000  avgt   60   1333.181 ± 15.855  us/op
+BatchedInsertionBenchmark.batchedWrsB             1000000  1000000  avgt   60   1431.204 ± 11.123  us/op
+BatchedInsertionBenchmark.perElementAExpJ             N/A  1000000  avgt   60   3087.993 ±  0.865  us/op
+BatchedInsertionBenchmark.perElementARes              N/A  1000000  avgt   60  10435.026 ±  8.395  us/op
+BatchedInsertionBenchmark.perElementExpDecay          N/A  1000000  avgt   60  59935.808 ± 26.666  us/op
+
+Benchmark result is saved to D:\Vlad\Work\GitHub\reservoir-sampling-benchmark\metrics\jmh-results\BatchedInsertionBenchmark.json
+14:27:38.237 [main] INFO  c.v.p.r.j.BatchedInsertionBenchmarkTest - Wrote JMH summary CSV to D:\Vlad\Work\GitHub\reservoir-sampling-benchmark\metrics\jmh-results\BatchedInsertionBenchmark.csv
+14:27:38.240 [main] INFO  c.v.p.r.j.BatchedInsertionBenchmarkTest - Completed 10 result(s) for BatchedInsertionBenchmark
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2726 s -- in com.vladmihalcea.phd.reservoir.jmh.BatchedInsertionBenchmarkTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  45:27 min
+[INFO] Finished at: 2026-07-21T14:27:38+03:00
+[INFO] ------------------------------------------------------------------------

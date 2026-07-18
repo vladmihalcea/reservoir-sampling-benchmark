@@ -1,0 +1,6 @@
+# Framework: Dropwizard Metrics 4.2.28  (com.codahale.metrics)
+# Audited classes: UniformReservoir, ExponentiallyDecayingReservoir, SlidingTimeWindowArrayReservoir
+# StrategyCorrectnessTest evidence (relative error vs. exact baseline):
+Dropwizard-Uniform: p50 err=0.052 p90 err=0.033 p99 err=0.055        -> WRS-N  (Vitter Algorithm R core)
+Dropwizard-ExpDecay: p50 err=0.060 p90 err=0.048 p99 err=0.119       -> WRS-N  (Efraimidis-Spirakis + forward decay, alpha=0.015)
+Dropwizard-SlidingWindow: p50 err=0.000 p90 err=0.000 p99 err=0.000  -> non-RS (sliding time window, retains all values in window)

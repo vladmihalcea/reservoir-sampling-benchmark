@@ -3,7 +3,7 @@ package com.vladmihalcea.phd.reservoir.api;
 /**
  * The weighted reservoir sampling taxonomy proposed by Hübschle-Schneider and Sanders
  * (ACM TOMS 2022), extended with a {@link #NON_RS} bucket for production strategies that
- * abandon reservoir sampling in favour of fixed-bucket histograms or rank summaries.
+ * abandon reservoir sampling in favor of fixed-bucket histograms or rank summaries.
  *
  * @author Vlad Mihalcea
  */
@@ -15,7 +15,12 @@ public enum Taxonomy {
     /** Weighted sampling with replacement. */
     WRS_R("WRS-R", "Sampling with replacement"),
 
-    /** Weighted sampling without replacement (Efraimidis-Spirakis A-Res / A-ExpJ). */
+    /**
+     * Sampling without replacement (Efraimidis-Spirakis A-Res / A-ExpJ). Also covers the uniform
+     * reservoirs (Vitter Algorithm R / Algorithm L, and the Dropwizard and VictoriaMetrics
+     * reservoirs built on them) as the equal-weight (unweighted) case, which Hübschle-Schneider and
+     * Sanders treat as a specialization of this class, not as with-replacement (WRS-R) sampling.
+     */
     WRS_N("WRS-N", "Sampling without replacement"),
 
     /** Batched reservoir sampling (Hübschle-Schneider WRS-B). */

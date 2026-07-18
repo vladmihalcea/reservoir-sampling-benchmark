@@ -22,7 +22,7 @@ public interface SamplingStrategy {
      * Records a single observation stamped with an explicit logical time in nanoseconds.
      * <p>
      * Time-decayed and windowed strategies (forward decay, Dropwizard's
-     * {@code ExponentiallyDecayingReservoir}, sliding window, VictoriaMetrics swap) honour the
+     * {@code ExponentiallyDecayingReservoir}, sliding window, VictoriaMetrics swap) honor the
      * supplied timestamp so that accuracy experiments can drive them from a deterministic clock.
      * Time-agnostic reservoirs simply ignore it.
      */

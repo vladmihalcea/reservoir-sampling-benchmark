@@ -1,0 +1,3 @@
+# Framework: VictoriaMetrics Summary (Go valyala/histogram), clean-room Java port in vm/VictoriaMetricsSummary
+# StrategyCorrectnessTest evidence (relative error vs. exact baseline):
+VictoriaMetrics: p50 err=0.019 p90 err=0.080 p99 err=0.137           -> WRS-N (Vitter reservoir core inside a double-buffered 5-min window; the C6 finding)

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Each retained observation keeps a decay weight {@code g(t - L) = exp(alpha * (t - L))} relative to a
  * landmark {@code L}; quantiles are read from a weighted snapshot exactly as Dropwizard does. When the
- * elapsed time crosses the rescale threshold the landmark is advanced and all weights renormalised to
+ * elapsed time crosses the rescale threshold the landmark is advanced and all weights renormalized to
  * avoid floating-point overflow.
  *
  * @author Vlad Mihalcea

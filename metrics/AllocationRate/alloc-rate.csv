@@ -1,0 +1,15 @@
+strategy,alloc_bytes_per_op
+Vitter-R,0.000
+Vitter-L-skip,0.000
+ES-A-Res,0.000
+ES-A-ExpJ,0.000
+ForwardDecay-0.015,0.000
+WRS-B,0.000
+Dropwizard-Uniform,0.000
+Dropwizard-ExpDecay,32.000
+Micrometer-Summary,0.001
+Prometheus-CKMS,56.250
+Prometheus-Native,32.000
+Prometheus-Histogram,0.000
+HdrHistogram,0.000
+VictoriaMetrics,0.000

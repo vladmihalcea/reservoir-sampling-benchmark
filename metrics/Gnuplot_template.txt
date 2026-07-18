@@ -7,7 +7,7 @@ Gnuplot conventions for this repository (mirrors the dto-entity-auto-sync templa
   per data series) so gnuplot's `columnheader` / `xtic(1)` can label everything automatically.
 - Each .gp renders BOTH an SVG (slides/web) and a PDF (IEEE camera-ready) in a single run.
 - Clustered bars use `set style histogram clustered`; sweeps use `with linespoints`.
-- Material Design palette for series colours:
+- Material Design palette for series colors:
     blue   #1565C0 / #64B5F6
     green  #2E7D32 / #81C784
     red    #C62828 / #E57373

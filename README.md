@@ -13,13 +13,13 @@ that and measures accuracy, memory and throughput against reference algorithms f
 
 | Strategy | Origin | Hübschle-Schneider class |
 |----------|--------|--------------------------|
-| Vitter Algorithm R | theory (uniform reservoir) | WRS-R |
-| Algorithm L (skip-based) | theory (skip optimisation) | WRS-R |
+| Vitter Algorithm R | theory (uniform reservoir) | WRS-N (unweighted) |
+| Algorithm L (skip-based) | theory (skip optimization) | WRS-N (unweighted) |
 | Efraimidis-Spirakis A-Res | theory (weighted, without replacement) | WRS-N |
 | Efraimidis-Spirakis A-ExpJ | theory (exponential jumps) | WRS-N |
 | Forward decay (parametric α) | theory (Cormode 2009) | WRS-N |
 | WRS-B | theory (Hübschle-Schneider batched) | WRS-B |
-| Dropwizard `UniformReservoir` | practice | WRS-R |
+| Dropwizard `UniformReservoir` | practice | WRS-N (unweighted) |
 | Dropwizard `ExponentiallyDecayingReservoir` (α=0.015) | practice | WRS-N |
 | Dropwizard `SlidingTimeWindowArrayReservoir` | practice | non-RS |
 | Micrometer `DistributionSummary` | practice | non-RS (HdrHistogram) |
@@ -27,7 +27,7 @@ that and measures accuracy, memory and throughput against reference algorithms f
 | Prometheus client native (exponential) histogram | practice | non-RS |
 | Prometheus-style exponential histogram (clean-room baseline) | practice | non-RS |
 | HdrHistogram | practice | non-RS |
-| VictoriaMetrics `Summary` (valyala/histogram port) | practice | WRS-R |
+| VictoriaMetrics `Summary` (valyala/histogram port) | practice | WRS-N (unweighted) |
 
 ## Experiments
 
@@ -67,3 +67,28 @@ their place for the camera-ready run.
 
 Charts land under `metrics/<Figure>/` as `.csv` + `.gp` + `.svg` + `.pdf`, one folder per figure;
 `render-charts.bat` first runs `FiguresFromJmh` to reshape `metrics/jmh-results/` into the per-figure CSVs.
+
+## Result capture, aggregation, and visualization
+
+Each JMH run writes a structured JSON and CSV file per benchmark class under `metrics/jmh-results/`,
+recording environment metadata, per-iteration timings, the per-benchmark mean, and the 99.9% confidence
+interval. When the GC profiler is enabled (`-Djmh.profGc=true`), the normalized allocation rate
+(`gc.alloc.rate.norm`, bytes per `update()`) is captured in the same records. `FiguresFromJmh` then
+reshapes these long-format results into one chart-ready wide CSV per figure under `metrics/<Figure>/`,
+beside a sibling gnuplot script. The accuracy, memory, and recency experiments write their own long-format
+CSVs (strategy, quantile, stream length, mean relative error, 95% CI) and matching wide CSVs into the same
+layout. `render-charts.bat` renders every `metrics/**/*.gp` to two formats side by side: SVG for slides and
+PDF for the camera-ready article.
+
+**Reporting conventions.** Time is reported in nanoseconds or milliseconds per operation with the 99.9%
+confidence-interval half-width as the dispersion indicator for the JMH measurements; retained memory in
+bytes; accuracy as mean relative error ± 95% CI over 30 seeds.
+
+### Build layout and test gating
+
+Heavy benchmarks and experiments are gated behind the `benchmark-tests` Maven profile and a
+`*BenchmarkTest` / `*ExperimentTest` / `*ReportTest` naming scheme, so the fast `mvn install` build (unit
+tests via surefire) stays free of them; failsafe runs them under the profile:
+`mvn -P benchmark-tests -Dit.test=<Name> integration-test`. JMH timing parameters are held identical across
+every strategy — the publication budget is 15 warm-up + 30 measurement iterations of 3 s each, 2 forks,
+99.9% CI; the harness defaults to a lighter 5/10/2 s pass for quick iteration.

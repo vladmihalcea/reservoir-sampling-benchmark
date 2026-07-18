@@ -26,9 +26,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * <ul>
  *   <li>the single-writer reference and clean-room reservoirs (Vitter, Efraimidis-Spirakis, WRS-B,
  *       HdrHistogram, the clean-room histogram) are <strong>not</strong> thread-safe, so every update is
- *       serialised by one external {@link ReentrantLock} — the "one global lock around a single-threaded
- *       reservoir" pattern the survey criticises;</li>
- *   <li>the production frameworks that synchronise internally or are lock-free (Dropwizard reservoirs,
+ *       serialized by one external {@link ReentrantLock} — the "one global lock around a single-threaded
+ *       reservoir" pattern the survey criticizes;</li>
+ *   <li>the production frameworks that synchronize internally or are lock-free (Dropwizard reservoirs,
  *       Micrometer, the Prometheus client metrics) run <strong>unguarded</strong>, so the benchmark sees
  *       their own concurrency mechanism instead of an artificial lock.</li>
  * </ul>

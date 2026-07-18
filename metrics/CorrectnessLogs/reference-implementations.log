@@ -1,0 +1,8 @@
+# Literature reference implementations (the "theory" anchors each framework maps to)
+# StrategyCorrectnessTest evidence (relative error vs. exact baseline):
+Vitter-R: p50 err=0.082 p90 err=0.054 p99 err=0.047                  -> WRS-N  [Vitter1985]
+Vitter-L-skip: p50 err=0.081 p90 err=0.056 p99 err=0.217             -> WRS-N  [Li1994][Vitter1985]
+ES-A-Res: p50 err=0.044 p90 err=0.012 p99 err=0.110                  -> WRS-N  [ES2006]
+ES-A-ExpJ: p50 err=0.013 p90 err=0.022 p99 err=0.194                 -> WRS-N  [ES2006]
+ForwardDecay-0.015: p50 err=0.064 p90 err=0.033 p99 err=0.031        -> WRS-N  [Cormode2009]
+WRS-B: p50 err=0.013 p90 err=0.022 p99 err=0.194                     -> WRS-B  [HS2022]

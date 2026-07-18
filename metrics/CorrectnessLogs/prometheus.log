@@ -1,0 +1,7 @@
+# Framework: Prometheus Java client 1.4.3  (io.prometheus.metrics)
+# Audited: classic Summary (CKMS biased quantiles); native/exponential histogram
+# StrategyCorrectnessTest evidence (relative error vs. exact baseline):
+Prometheus-CKMS: p50 err=0.077 p90 err=0.013 p99 err=0.020           -> non-RS (CKMS rank summary)
+Prometheus-Native: p50 err=0.001 p90 err=0.004 p99 err=0.004         -> non-RS (native exponential-bucket histogram)
+# Clean-room bucket baseline built in impl/ for comparison (not a framework port):
+Prometheus-Histogram: p50 err=0.000 p90 err=0.003 p99 err=0.002      -> non-RS (fixed exponential-bucket baseline)

@@ -20,12 +20,13 @@ import com.vladmihalcea.phd.reservoir.vm.VictoriaMetricsSummary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
  * Central construction point for every strategy under study, so the benchmarks and the accuracy
- * experiments exercise an identical, consistently parameterised set. Sizes follow the production
+ * experiments exercise an identical, consistently parameterized set. Sizes follow the production
  * defaults (Dropwizard k=1028, VictoriaMetrics k=1000) so the comparison reflects real deployments.
  *
  * @author Vlad Mihalcea
@@ -77,7 +78,7 @@ public final class StrategyCatalog {
     }
 
     /**
-     * Builds a single strategy by its catalogue name at an explicit reservoir size, used by the JMH
+     * Builds a single strategy by its catalog name at an explicit reservoir size, used by the JMH
      * benchmarks that sweep {@code k} via {@code @Param}. Histogram strategies ignore {@code k}.
      */
     public static SamplingStrategy create(String name, int k, Clock clock, long seed) {
@@ -103,12 +104,12 @@ public final class StrategyCatalog {
 
     /**
      * Strategies whose {@code update} is safe to call concurrently without an external lock, because the
-     * underlying production structure synchronises internally (Dropwizard reservoirs, Micrometer) or is
+     * underlying production structure synchronizes internally (Dropwizard reservoirs, Micrometer) or is
      * lock-free/atomic (the Prometheus client metrics). The remaining strategies are single-writer
      * reservoirs that a real deployment must guard with a lock — which is exactly the contention pattern
      * the concurrency experiment (E2) measures.
      */
-    private static final java.util.Set<String> THREAD_SAFE = java.util.Set.of(
+    private static final java.util.Set<String> THREAD_SAFE = Set.of(
             "Dropwizard-Uniform", "Dropwizard-ExpDecay", "Dropwizard-SlidingWindow",
             "Micrometer-Summary", "Prometheus-CKMS", "Prometheus-Native");
 

@@ -12,9 +12,10 @@ import java.util.SplittableRandom;
  * (0,1) and {@code w} its weight. The reservoir is a binary min-heap keyed on the smallest retained
  * key so that eviction is {@code O(log k)}.
  * <p>
- * A-Res is the theoretical foundation of Dropwizard's {@code ExponentiallyDecayingReservoir}; with a
- * constant weight of 1 it degenerates to a uniform sample, which is the configuration benchmarked
- * against {@link VitterR} for accuracy. It draws one random number and one {@code Math.pow} per
+ * A-Res keys on {@code u^(1/w)}; it is the sibling of the priority-sampling scheme (priority
+ * {@code w/u}) that Dropwizard's {@code ExponentiallyDecayingReservoir} actually uses under forward
+ * decay, not that reservoir's own algorithm. With a constant weight of 1 it degenerates to a uniform
+ * sample, the configuration benchmarked against {@link VitterR} for accuracy. It draws one random number and one {@code Math.pow} per
  * element — the per-item cost that batching (WRS-B) removes.
  *
  * @author Vlad Mihalcea

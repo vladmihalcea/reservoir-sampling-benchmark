@@ -3,12 +3,13 @@
 #         produced by FiguresFromJmh from metrics/jmh-results/UpdateThroughputBenchmark.csv
 # Output: update-cost.svg / .pdf
 #
-# The per-element Efraimidis-Spirakis strategies rise with k (a random draw and heap sift per update);
-# Algorithm L and the histograms stay flat, which is the core per-element cost story of the survey.
+# Cost is essentially flat in k for every strategy: across the 32x sweep from k=128 to k=4096 no strategy
+# moves by more than ~13% (ES-A-Res 16.5->17.3, Dropwizard-Uniform 8.9->10.1). The survey's point is the
+# ~90x spread *between* strategies at any fixed k (Vitter-L-skip 1.6 ns vs Micrometer 142 ns), not growth
+# in k, so the clusters are read across the x-axis rather than within one.
 
 set datafile separator ","
-set title "Per-update cost by strategy and reservoir size k" font ",13"
-set ylabel "Nanoseconds per update (log scale)"
+set ylabel "Nanoseconds per update (log scale)" font ",12"
 set logscale y
 set grid ytics lt 0 lw 0.5 lc rgb "#cccccc"
 
@@ -16,8 +17,9 @@ set style data histograms
 set style histogram clustered gap 1
 set style fill solid 0.9 border -1
 set boxwidth 0.9
-set xtics rotate by -40 font ",8"
-set key outside right top vertical
+set xtics rotate by -40 font ",11"
+set ytics font ",11"
+set key outside right top vertical font ",11" samplen 2 spacing 1.2
 
 set style line 1 lc rgb "#64B5F6"
 set style line 2 lc rgb "#1565C0"
@@ -28,7 +30,7 @@ set terminal svg enhanced font "arial,11" size 1200,600
 set output 'update-cost.svg'
 plot for [i=2:5] 'update-cost.csv' using i:xtic(1) ls (i-1) title columnheader
 
-set terminal pdfcairo enhanced font "arial,9" size 9,5
+set terminal pdfcairo enhanced font "arial,12" size 5,2.8
 set output 'update-cost.pdf'
 replot
 

@@ -4,16 +4,17 @@
 # Output: concurrency.svg / .pdf
 #
 # The lock-guarded single-writer reservoirs flatten or degrade as threads rise (lock contention); the
-# internally lock-free / synchronised framework metrics should scale better — the survey's contention
+# internally lock-free / synchronized framework metrics should scale better — the survey's contention
 # contrast, which an earlier uniform-lock version of the benchmark hid.
 
 set datafile separator ","
-set title "Update throughput under contention (1-16 threads)" font ",13"
-set xlabel "Threads (log scale)"
-set ylabel "Throughput (ops/us)"
+set xlabel "Threads (log scale)" font ",12"
+set ylabel "Throughput (ops/us)" font ",12"
 set logscale x 2
 set grid xtics ytics lt 0 lw 0.5 lc rgb "#cccccc"
-set key outside right top vertical font ",8"
+set xtics font ",11"
+set ytics font ",11"
+set key inside right top vertical maxrows 5 font ",11" samplen 1.5 spacing 1.1 opaque box lw 0.5
 
 set style line 1 lw 2 lc rgb "#1565C0"
 set style line 2 lw 2 lc rgb "#00838F"
@@ -30,7 +31,7 @@ set terminal svg enhanced font "arial,11" size 1000,550
 set output 'concurrency.svg'
 plot for [i=2:11] 'concurrency.csv' using 1:i with linespoints ls (i-1) title columnheader
 
-set terminal pdfcairo enhanced font "arial,10" size 8,4.5
+set terminal pdfcairo enhanced font "arial,12" size 5,2.8
 set output 'concurrency.pdf'
 replot
 

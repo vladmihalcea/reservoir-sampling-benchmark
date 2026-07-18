@@ -48,13 +48,21 @@ public final class FiguresFromJmh {
         if (rows.isEmpty()) {
             return;
         }
-        List<String> ks = distinct(rows, "k");
-        List<String> strategies = distinct(rows, "strategy");
-        Map<String, Map<String, String>> byStrategy = new LinkedHashMap<>();
+        // Only the avgt rows are ns/op; the same file's thrpt rows are ops/ns and must never be plotted here.
+        List<Row> avgt = new ArrayList<>();
         for (Row r : rows) {
-            if (!"avgt".equals(r.get("mode"))) {
-                continue;
+            if ("avgt".equals(r.get("mode"))) {
+                avgt.add(r);
             }
+        }
+        if (avgt.isEmpty()) {
+            return;
+        }
+        requireUnit(avgt, "ns/op", "E1 update-cost");
+        List<String> ks = distinct(avgt, "k");
+        List<String> strategies = distinct(avgt, "strategy");
+        Map<String, Map<String, String>> byStrategy = new LinkedHashMap<>();
+        for (Row r : avgt) {
             byStrategy.computeIfAbsent(r.get("strategy"), s -> new LinkedHashMap<>())
                     .put(r.get("k"), r.get("score"));
         }
@@ -79,6 +87,7 @@ public final class FiguresFromJmh {
     }
 
     // E4 (allocation half): bytes allocated per update at the default k (gc.alloc.rate.norm).
+    // No requireUnit here: this reads alloc_rate_norm (always B/op), not score, so the timing unit is moot.
     private static void allocationRate(Path jmh) {
         List<Row> rows = readCsv(jmh.resolve("UpdateThroughputBenchmark.csv"));
         if (rows.isEmpty() || !rows.get(0).has("alloc_rate_norm")) {
@@ -123,6 +132,7 @@ public final class FiguresFromJmh {
         if (all.isEmpty()) {
             return;
         }
+        requireUnit(all, "ops/us", "E2 concurrency");
         List<String> strategies = distinct(all, "strategy");
         // threads column holds the actual thread count for each run.
         LinkedHashMap<Integer, Map<String, String>> byThreads = new LinkedHashMap<>();
@@ -159,13 +169,30 @@ public final class FiguresFromJmh {
         if (rows.isEmpty()) {
             return;
         }
+        // Emitted in us/op; batched-insertion.gp divides by 1000 so the plotted axis reads ms. Keep the two
+        // in step: if this assertion is relaxed, the divisor in the gnuplot script must change with it.
+        requireUnit(rows, "us/op", "E3 batched-insertion");
         List<String> methods = distinct(rows, "benchmark");
-        List<String> batchSizes = distinct(rows, "batchSize");
+        // Only batchedWrsB carries a batchSize; the per-element baselines are batch-size-independent and
+        // JMH now runs them once each. Collect the sweep from the batched rows and broadcast each flat
+        // baseline across it, so they still render as the horizontal controls the figure compares against.
+        List<String> batchSizes = new ArrayList<>();
+        Map<String, String> flatBaselines = new LinkedHashMap<>();
         Map<String, Map<String, String>> byBatch = new LinkedHashMap<>();
         for (Row r : rows) {
-            byBatch.computeIfAbsent(r.get("batchSize"), b -> new LinkedHashMap<>())
+            String batch = r.get("batchSize");
+            // JMH reports an inapplicable @Param as the literal string "null" in the summary CSV.
+            if (batch == null || batch.isBlank() || "null".equals(batch)) {
+                flatBaselines.put(r.get("benchmark"), r.get("score"));
+                continue;
+            }
+            if (!batchSizes.contains(batch)) {
+                batchSizes.add(batch);
+            }
+            byBatch.computeIfAbsent(batch, b -> new LinkedHashMap<>())
                     .put(r.get("benchmark"), r.get("score"));
         }
+        batchSizes.sort(java.util.Comparator.comparingLong(Long::parseLong));
         String[] header = new String[methods.size() + 1];
         header[0] = "batchSize";
         for (int i = 0; i < methods.size(); i++) {
@@ -178,7 +205,9 @@ public final class FiguresFromJmh {
                 Object[] row = new Object[methods.size() + 1];
                 row[0] = batch;
                 for (int i = 0; i < methods.size(); i++) {
-                    row[i + 1] = perMethod.getOrDefault(methods.get(i), "");
+                    String method = methods.get(i);
+                    String score = perMethod.get(method);
+                    row[i + 1] = score != null ? score : flatBaselines.getOrDefault(method, "");
                 }
                 w.writeRow(row);
             }
@@ -192,6 +221,7 @@ public final class FiguresFromJmh {
         if (rows.isEmpty()) {
             return;
         }
+        requireUnit(rows, "ns/op", "E5 query-cost");
         Path out = CsvWriter.metricsPath("QueryCost", "query-cost.csv");
         try (CsvWriter w = new CsvWriter(out, "strategy", "query_ns", "err")) {
             for (Row r : rows) {
@@ -233,6 +263,31 @@ public final class FiguresFromJmh {
             return rows;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Fails fast when a JMH result file is not in the unit its figure assumes. The gnuplot axis labels and
+     * the paper's prose both hardcode these units, and nothing else ties the two together, so a changed
+     * {@code @OutputTimeUnit} has to break the build here rather than silently relabel a chart. E3 shipped
+     * exactly that defect once: {@code us/op} scores plotted under an axis reading "ms", a 1000x error that
+     * contradicted the surrounding text and survived until the figure was read at print size.
+     *
+     * @param rows    the rows that will actually be plotted, already filtered by mode where that matters
+     * @param expected the JMH unit string the figure's axis label is written against
+     * @param figure  figure id used in the failure message
+     */
+    private static void requireUnit(List<Row> rows, String expected, String figure) {
+        for (Row r : rows) {
+            String unit = r.get("unit");
+            if (unit == null || unit.isBlank()) {
+                continue;
+            }
+            if (!expected.equals(unit)) {
+                throw new IllegalStateException(figure + ": expected JMH unit '" + expected
+                        + "' but found '" + unit + "'. Update the gnuplot axis label and the paper text"
+                        + " to match before changing @OutputTimeUnit.");
+            }
         }
     }
 

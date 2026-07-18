@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Sanity check that every catalogued strategy produces quantile estimates within a generous tolerance of
+ * Sanity check that every cataloged strategy produces quantile estimates within a generous tolerance of
  * the exact quantile on a stationary lognormal stream. This guards against gross implementation errors
  * (wrong heap direction, broken interpolation, empty snapshots) before the expensive accuracy sweep runs.
  *

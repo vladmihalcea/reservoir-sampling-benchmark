@@ -12,7 +12,7 @@ import java.util.SplittableRandom;
  * eviction threshold {@code T_w} (the smallest retained key) and skips over elements until their
  * cumulative weight exceeds the jump, at which point one element is admitted and a fresh jump drawn.
  * <p>
- * This is the same skip optimisation as Algorithm L but for the <em>weighted</em> without-replacement
+ * This is the same skip optimization as Algorithm L but for the <em>weighted</em> without-replacement
  * setting, and it is the direct single-threaded predecessor of Hübschle-Schneider's batched WRS-B.
  *
  * @author Vlad Mihalcea

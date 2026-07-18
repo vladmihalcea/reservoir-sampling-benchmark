@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * are swapped — "next" is promoted to "current" and a fresh "next" is started — so a quantile query
  * always reads a reservoir holding roughly the last half-window of data.
  * <p>
- * The port is deterministic (seeded reservoirs, injectable {@link Clock}) so its window behaviour can be
+ * The port is deterministic (seeded reservoirs, injectable {@link Clock}) so its window behavior can be
  * unit-tested against the documented Go semantics and replayed in the recency experiment (E8). It backs
  * the survey's claim that VictoriaMetrics does still sample (unlike its {@code vmrange} histogram path),
  * using the oldest algorithm in the taxonomy.
@@ -91,6 +91,8 @@ public class VictoriaMetricsSummary implements SamplingStrategy {
 
     @Override
     public Taxonomy taxonomy() {
-        return Taxonomy.WRS_R;
+        // Built on Vitter Algorithm R reservoirs (uniform): the equal-weight case of
+        // without-replacement sampling, WRS-N rather than WRS-R.
+        return Taxonomy.WRS_N;
     }
 }

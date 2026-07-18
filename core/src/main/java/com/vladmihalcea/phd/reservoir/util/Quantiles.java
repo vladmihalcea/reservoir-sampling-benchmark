@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Quantile helpers shared by the sorting-based reservoir strategies and the exact quantile baseline.
  * Uses the "R-7" linear-interpolation definition (the default in R, NumPy and Excel), which is
- * also what Dropwizard's {@code Snapshot} applies to a materialised reservoir.
+ * also what Dropwizard's {@code Snapshot} applies to a materialized reservoir.
  *
  * @author Vlad Mihalcea
  */

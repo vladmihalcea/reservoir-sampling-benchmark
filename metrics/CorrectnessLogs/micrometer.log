@@ -1,0 +1,4 @@
+# Framework: Micrometer 1.16.5  (io.micrometer)
+# Audited class: TimeWindowPercentileHistogram (HdrHistogram-backed)
+# StrategyCorrectnessTest evidence (relative error vs. exact baseline):
+Micrometer-Summary: p50 err=0.000 p90 err=0.001 p99 err=0.000        -> non-RS (HdrHistogram; no reservoir sampling)

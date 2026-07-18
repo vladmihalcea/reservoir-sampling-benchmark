@@ -9,7 +9,7 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 /**
  * Adapter over a Micrometer {@code DistributionSummary} configured to publish client-side percentiles.
  * Under the hood Micrometer computes these from a ring of HdrHistogram-backed windows, so this adapter
- * shows what Micrometer applications actually get. Because Micrometer materialises percentiles only for
+ * shows what Micrometer applications actually get. Because Micrometer materializes percentiles only for
  * the quantiles it was told to publish, the queried quantile set is fixed at construction; the survey's
  * accuracy experiments query exactly this set.
  *

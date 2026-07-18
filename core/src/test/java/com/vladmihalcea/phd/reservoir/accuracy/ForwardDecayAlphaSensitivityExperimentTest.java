@@ -20,7 +20,7 @@ import java.util.List;
  * parameter {@code alpha}, which Dropwizard hardcodes to 0.015. For each workload profile the parametric
  * {@link ForwardDecayReservoir} is swept across {@code alpha} values and its tail-quantile error measured
  * against the <em>recent</em> truth (the last quarter of the stream), since the whole point of decay is to
- * track the current distribution. A workload where 0.015 is far from the error-minimising alpha is direct
+ * track the current distribution. A workload where 0.015 is far from the error-minimizing alpha is direct
  * evidence for the survey's claim that the constant has never been validated across workloads.
  *
  * @author Vlad Mihalcea

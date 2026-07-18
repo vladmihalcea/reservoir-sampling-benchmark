@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Loads the committed "realistic" traces (see {@link TraceGenerator}) from the classpath and exposes them
- * two ways: as timestamped {@link WorkloadTrace}s (for time-aware replay that honours the recorded
+ * two ways: as timestamped {@link WorkloadTrace}s (for time-aware replay that honors the recorded
  * inter-arrival gaps) and as plain {@link Workload}s (values only) so the captured traces drop straight
  * into the value-based accuracy sweep (E6) alongside the synthetic distributions. A trace-backed
  * {@code Workload} ignores the requested seed — a captured trace is a fixed sample — and truncates to the

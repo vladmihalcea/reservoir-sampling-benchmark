@@ -3,6 +3,7 @@
 
 # Log file
 *.log
+!metrics/**/*.log
 
 # BlueJ files
 *.ctxt

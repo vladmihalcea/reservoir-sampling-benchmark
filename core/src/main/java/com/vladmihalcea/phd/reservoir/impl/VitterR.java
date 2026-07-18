@@ -60,6 +60,8 @@ public class VitterR implements SamplingStrategy {
 
     @Override
     public Taxonomy taxonomy() {
-        return Taxonomy.WRS_R;
+        // Uniform reservoir sampling is the equal-weight (unweighted) case of without-replacement
+        // sampling; Hübschle-Schneider and Sanders classify it as WRS-N, not WRS-R (see §2.3).
+        return Taxonomy.WRS_N;
     }
 }

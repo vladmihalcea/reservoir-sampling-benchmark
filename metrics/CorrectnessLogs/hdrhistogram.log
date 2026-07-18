@@ -1,0 +1,3 @@
+# Library: HdrHistogram (Gil Tene) -- the engine behind Micrometer; also benchmarked standalone
+# StrategyCorrectnessTest evidence (relative error vs. exact baseline):
+HdrHistogram: p50 err=0.000 p90 err=0.001 p99 err=0.000              -> non-RS (high-dynamic-range bucket histogram)

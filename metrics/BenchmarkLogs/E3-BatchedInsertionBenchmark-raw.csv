@@ -1,0 +1,11 @@
+benchmark,mode,batchSize,n,threads,score,score_error,unit,alloc_rate_norm
+batchedWrsB,avgt,1,1000000,1,3090.46,7.64838,us/op,
+batchedWrsB,avgt,10,1000000,1,1801.13,2.04781,us/op,
+batchedWrsB,avgt,100,1000000,1,1318.45,1.24381,us/op,
+batchedWrsB,avgt,1000,1000000,1,1271.61,1.04465,us/op,
+batchedWrsB,avgt,10000,1000000,1,1270.69,7.84388,us/op,
+batchedWrsB,avgt,100000,1000000,1,1333.18,15.8553,us/op,
+batchedWrsB,avgt,1000000,1000000,1,1431.20,11.1229,us/op,
+perElementAExpJ,avgt,null,1000000,1,3087.99,0.865393,us/op,
+perElementARes,avgt,null,1000000,1,10435.0,8.39466,us/op,
+perElementExpDecay,avgt,null,1000000,1,59935.8,26.6659,us/op,

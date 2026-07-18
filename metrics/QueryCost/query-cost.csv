@@ -1,0 +1,12 @@
+strategy,query_ns,err
+Vitter-R,7277.23,79.2178
+ES-A-ExpJ,12520.1,477.688
+WRS-B,12198.7,93.7196
+Dropwizard-Uniform,11967.6,613.620
+Dropwizard-ExpDecay,56192.3,2102.33
+Micrometer-Summary,23163.0,1171.45
+Prometheus-CKMS,496.887,3.22184
+Prometheus-Native,2761.61,21.0528
+Prometheus-Histogram,38.3311,0.589368
+HdrHistogram,4860.13,207.172
+VictoriaMetrics,8610.77,97.2002

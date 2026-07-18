@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * A materialised stream of nanosecond values with matching logical arrival timestamps. The timestamps
+ * A materialized stream of nanosecond values with matching logical arrival timestamps. The timestamps
  * let time-decayed and windowed strategies be replayed deterministically: a synthetic trace spreads the
  * observations evenly across a configurable wall span, so a regime shift at the middle of the value
  * array coincides with the middle of the time span.
@@ -27,7 +27,7 @@ public final class WorkloadTrace {
     }
 
     /**
-     * Wraps already-materialised value and timestamp arrays (e.g. parsed from a captured trace resource).
+     * Wraps already-materialized value and timestamp arrays (e.g. parsed from a captured trace resource).
      */
     public static WorkloadTrace of(String name, long[] values, long[] timestampsNanos) {
         return new WorkloadTrace(name, values, timestampsNanos);

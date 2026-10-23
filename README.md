@@ -48,6 +48,26 @@ that and measures accuracy, memory and throughput against reference algorithms f
 - **E7b α convergence** — post-shift p99 convergence speed as a function of α.
 - **E8 recency** — p99 convergence speed after a regime shift.
 
+### Follow-up: pool starvation under virtual threads (`starvation` module)
+
+The `starvation` module applies the survey's cost and accuracy questions to a real tail-heavy workload:
+HikariCP, DBCP2, and Agroal on PostgreSQL with 200, 1,000, or 10,000 platform or virtual threads competing
+for a connection. Unlike `core`, it needs a database (a local `uslpool` PostgreSQL database, or Docker). Its
+live recorders are the `core` adapters listed in `StrategyCatalog.CONCURRENT_RECORDERS`, so the live
+experiments and the offline replay score the same code.
+
+- **M1 driver validation** — the virtual-thread driver reproduces a same-session JMH run within a few
+  percent.
+- **V1 pool behavior** — throughput, exact acquisition percentiles, timeouts, and Jain's fairness by pool,
+  thread kind, and client count; exports lossless acquisition traces (`metrics/VirtualThreads/traces/`,
+  git-ignored).
+- **V2 tail accuracy** (in `core`) — the production recorders replayed over the V1 traces, scored on p99.9,
+  the maximum, and whether a timeout-level wait shows at all.
+- **V3 recorder overhead** — live, at 10,000 virtual threads; **V3a** (in `core`) — recorder update rate with
+  up to 10,000 virtual writers, no database.
+- **V4 admission control** — none, fair or unfair semaphore, bounded executor, and rate limiter, comparing
+  the pool's acquisition time with the clients' total wait.
+
 ## Quick start
 
 ```bash
@@ -55,6 +75,7 @@ mvn clean install                                   # build + fast unit tests
 run-performance-benchmarks.bat                      # JMH families E1-E3, E5 -> metrics/jmh-results
 run-accuracy-experiments.bat -Drs.reps=2 -Drs.maxStream=10000   # fast CSVs under metrics/
 render-charts.bat                                   # reshape JMH results + gnuplot -> SVG + PDF
+mvn -P benchmark-tests -pl starvation -Dit.test=VirtualThreadPoolExperimentTest verify   # needs PostgreSQL
 ```
 
 Full-scale runs (publication scale) drop the `-Drs.*` overrides and pass the publication JMH budget

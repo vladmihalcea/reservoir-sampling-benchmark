@@ -71,6 +71,15 @@ public class MicrometerSummary implements SamplingStrategy {
         return Taxonomy.NON_RS;
     }
 
+    /**
+     * Micrometer's own maximum, a time-decaying max over the distribution-statistic window. It is what a
+     * dashboard shows as the max; {@link #valueAtQuantile} with {@code q = 1.0} would return the nearest
+     * published percentile instead.
+     */
+    public double max() {
+        return summary.max();
+    }
+
     public double[] publishedQuantiles() {
         return publishedQuantiles.clone();
     }

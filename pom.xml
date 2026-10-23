@@ -18,6 +18,7 @@
 
     <modules>
         <module>core</module>
+        <module>starvation</module>
     </modules>
 
     <properties>
@@ -40,6 +41,13 @@
         <hdrhistogram.version>2.2.2</hdrhistogram.version>
         <micrometer.version>1.16.5</micrometer.version>
         <prometheus-metrics.version>1.4.3</prometheus-metrics.version>
+
+        <!-- Pools and database of the starvation module (same versions as connection-pool-auto-scaling) -->
+        <hikaricp.version>6.0.0</hikaricp.version>
+        <dbcp2.version>2.9.0</dbcp2.version>
+        <agroal.version>1.11</agroal.version>
+        <postgresql.version>42.7.7</postgresql.version>
+        <testcontainers.version>1.21.4</testcontainers.version>
 
         <!-- Testing / logging -->
         <junit.version>5.11.4</junit.version>

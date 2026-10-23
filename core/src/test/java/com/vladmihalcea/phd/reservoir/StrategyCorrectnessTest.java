@@ -62,6 +62,28 @@ class StrategyCorrectnessTest {
         }
     }
 
+    @Test
+    void productionRecordersTrackStationaryQuantiles() {
+        // The recorder set of the acquisition-tail study includes the lock-free reservoir, which all() omits.
+        long[] values = SyntheticWorkloads.lognormal().generate(200_000, 7L);
+        ExactQuantileBaseline baseline = new ExactQuantileBaseline();
+        for (long v : values) {
+            baseline.add(v);
+        }
+        for (String name : StrategyCatalog.PRODUCTION_RECORDERS) {
+            SamplingStrategy strategy = StrategyCatalog.create(name, StrategyCatalog.DEFAULT_K, Clock.SYSTEM, 123L);
+            for (long v : values) {
+                strategy.update(v);
+            }
+            for (double q : new double[]{0.50, 0.90}) {
+                double truth = baseline.valueAtQuantile(q);
+                double estimate = strategy.valueAtQuantile(q);
+                assertTrue(ExactQuantileBaseline.relativeError(estimate, truth) < 0.20,
+                        name + " q" + q + " off: got " + estimate + " expected ~" + truth);
+            }
+        }
+    }
+
     private static String fmt(double d) {
         return String.format(java.util.Locale.ROOT, "%.3f", d);
     }

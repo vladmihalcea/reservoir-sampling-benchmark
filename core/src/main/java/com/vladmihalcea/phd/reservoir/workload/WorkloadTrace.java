@@ -2,9 +2,13 @@ package com.vladmihalcea.phd.reservoir.workload;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.zip.GZIPInputStream;
 
 /**
  * A materialized stream of nanosecond values with matching logical arrival timestamps. The timestamps
@@ -47,31 +51,40 @@ public final class WorkloadTrace {
     }
 
     /**
-     * Loads a captured trace from a CSV file with a {@code timestamp_ns,value_ns} header.
+     * Loads a captured trace from a CSV file with a {@code timestamp_ns,value_ns} header; a file whose name ends in
+     * {@code .gz} is read as gzip-compressed.
      */
     public static WorkloadTrace fromCsv(String name, Path csv) {
-        try (BufferedReader reader = Files.newBufferedReader(csv)) {
-            java.util.ArrayList<long[]> rows = new java.util.ArrayList<>();
+        try (BufferedReader reader = open(csv)) {
+            long[] values = new long[1 << 16];
+            long[] timestamps = new long[1 << 16];
+            int n = 0;
             String line = reader.readLine(); // header
             while ((line = reader.readLine()) != null) {
                 if (line.isBlank()) {
                     continue;
                 }
                 int comma = line.indexOf(',');
-                long ts = Long.parseLong(line.substring(0, comma).trim());
-                long value = Long.parseLong(line.substring(comma + 1).trim());
-                rows.add(new long[]{ts, value});
+                if (n == values.length) {
+                    values = Arrays.copyOf(values, n * 2);
+                    timestamps = Arrays.copyOf(timestamps, n * 2);
+                }
+                timestamps[n] = Long.parseLong(line.substring(0, comma).trim());
+                values[n] = Long.parseLong(line.substring(comma + 1).trim());
+                n++;
             }
-            long[] values = new long[rows.size()];
-            long[] timestamps = new long[rows.size()];
-            for (int i = 0; i < rows.size(); i++) {
-                timestamps[i] = rows.get(i)[0];
-                values[i] = rows.get(i)[1];
-            }
-            return new WorkloadTrace(name, values, timestamps);
+            return new WorkloadTrace(name, Arrays.copyOf(values, n), Arrays.copyOf(timestamps, n));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private static BufferedReader open(Path csv) throws IOException {
+        if (csv.getFileName().toString().endsWith(".gz")) {
+            return new BufferedReader(new InputStreamReader(
+                    new GZIPInputStream(Files.newInputStream(csv), 1 << 16), StandardCharsets.US_ASCII), 1 << 16);
+        }
+        return Files.newBufferedReader(csv);
     }
 
     public String name() {

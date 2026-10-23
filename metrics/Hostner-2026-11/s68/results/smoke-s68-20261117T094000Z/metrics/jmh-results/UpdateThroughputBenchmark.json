@@ -1,0 +1,868 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.vladmihalcea.phd.reservoir.jmh.UpdateThroughputBenchmark.update",
+        "mode" : "thrpt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/temurin-25/bin/java",
+        "jvmArgs" : [
+            "-Xms8g",
+            "-Xmx8g",
+            "-XX:+AlwaysPreTouch",
+            "-Djmh.forks=1",
+            "-Djmh.warmup=1",
+            "-Djmh.iters=1",
+            "-Djmh.secs=1",
+            "-Djmh.param.k=1028",
+            "-Djmh.param.strategy=OpenTelemetry-Explicit,OpenTelemetry-Exponential"
+        ],
+        "jdkVersion" : "25.0.3",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "25.0.3+9-LTS",
+        "warmupIterations" : 1,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 1,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "k" : "1028",
+            "strategy" : "OpenTelemetry-Explicit"
+        },
+        "primaryMetric" : {
+            "score" : 0.04286325637494683,
+            "scoreError" : "NaN",
+            "scoreConfidence" : [
+                "NaN",
+                "NaN"
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.04286325637494683,
+                "50.0" : 0.04286325637494683,
+                "90.0" : 0.04286325637494683,
+                "95.0" : 0.04286325637494683,
+                "99.0" : 0.04286325637494683,
+                "99.9" : 0.04286325637494683,
+                "99.99" : 0.04286325637494683,
+                "99.999" : 0.04286325637494683,
+                "99.9999" : 0.04286325637494683,
+                "100.0" : 0.04286325637494683
+            },
+            "scoreUnit" : "ops/ns",
+            "rawData" : [
+                [
+                    0.04286325637494683
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+            "app.cpu.mhz" : {
+                "score" : 4598.444660801711,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 4598.444660801711,
+                    "50.0" : 4598.444660801711,
+                    "90.0" : 4598.444660801711,
+                    "95.0" : 4598.444660801711,
+                    "99.0" : 4598.444660801711,
+                    "99.9" : 4598.444660801711,
+                    "99.99" : 4598.444660801711,
+                    "99.999" : 4598.444660801711,
+                    "99.9999" : 4598.444660801711,
+                    "100.0" : 4598.444660801711
+                },
+                "scoreUnit" : "MHz",
+                "rawData" : [
+                    [
+                        4598.444660801711
+                    ]
+                ]
+            },
+            "app.cpu.power" : {
+                "score" : 36.47735089301347,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 36.47735089301347,
+                    "50.0" : 36.47735089301347,
+                    "90.0" : 36.47735089301347,
+                    "95.0" : 36.47735089301347,
+                    "99.0" : 36.47735089301347,
+                    "99.9" : 36.47735089301347,
+                    "99.99" : 36.47735089301347,
+                    "99.999" : 36.47735089301347,
+                    "99.9999" : 36.47735089301347,
+                    "100.0" : 36.47735089301347
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        36.47735089301347
+                    ]
+                ]
+            },
+            "app.cpu.power.limit" : {
+                "score" : 80.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    80.0,
+                    80.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 80.0,
+                    "50.0" : 80.0,
+                    "90.0" : 80.0,
+                    "95.0" : 80.0,
+                    "99.0" : 80.0,
+                    "99.9" : 80.0,
+                    "99.99" : 80.0,
+                    "99.999" : 80.0,
+                    "99.9999" : 80.0,
+                    "100.0" : 80.0
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        80.0
+                    ]
+                ]
+            },
+            "app.cpu.util" : {
+                "score" : 8.724832214765101,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 8.724832214765101,
+                    "50.0" : 8.724832214765101,
+                    "90.0" : 8.724832214765101,
+                    "95.0" : 8.724832214765101,
+                    "99.0" : 8.724832214765101,
+                    "99.9" : 8.724832214765101,
+                    "99.99" : 8.724832214765101,
+                    "99.999" : 8.724832214765101,
+                    "99.9999" : 8.724832214765101,
+                    "100.0" : 8.724832214765101
+                },
+                "scoreUnit" : "%",
+                "rawData" : [
+                    [
+                        8.724832214765101
+                    ]
+                ]
+            },
+            "app.temp" : {
+                "score" : 79.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    79.0,
+                    79.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 79.0,
+                    "50.0" : 79.0,
+                    "90.0" : 79.0,
+                    "95.0" : 79.0,
+                    "99.0" : 79.0,
+                    "99.9" : 79.0,
+                    "99.99" : 79.0,
+                    "99.999" : 79.0,
+                    "99.9999" : 79.0,
+                    "100.0" : 79.0
+                },
+                "scoreUnit" : "degC",
+                "rawData" : [
+                    [
+                        79.0
+                    ]
+                ]
+            },
+            "app.thermal.throttles" : {
+                "score" : 0.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    0.0,
+                    0.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 0.0,
+                    "50.0" : 0.0,
+                    "90.0" : 0.0,
+                    "95.0" : 0.0,
+                    "99.0" : 0.0,
+                    "99.9" : 0.0,
+                    "99.99" : 0.0,
+                    "99.999" : 0.0,
+                    "99.9999" : 0.0,
+                    "100.0" : 0.0
+                },
+                "scoreUnit" : "#",
+                "rawData" : [
+                    [
+                        0.0
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.vladmihalcea.phd.reservoir.jmh.UpdateThroughputBenchmark.update",
+        "mode" : "thrpt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/temurin-25/bin/java",
+        "jvmArgs" : [
+            "-Xms8g",
+            "-Xmx8g",
+            "-XX:+AlwaysPreTouch",
+            "-Djmh.forks=1",
+            "-Djmh.warmup=1",
+            "-Djmh.iters=1",
+            "-Djmh.secs=1",
+            "-Djmh.param.k=1028",
+            "-Djmh.param.strategy=OpenTelemetry-Explicit,OpenTelemetry-Exponential"
+        ],
+        "jdkVersion" : "25.0.3",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "25.0.3+9-LTS",
+        "warmupIterations" : 1,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 1,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "k" : "1028",
+            "strategy" : "OpenTelemetry-Exponential"
+        },
+        "primaryMetric" : {
+            "score" : 0.026830933447847777,
+            "scoreError" : "NaN",
+            "scoreConfidence" : [
+                "NaN",
+                "NaN"
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.026830933447847777,
+                "50.0" : 0.026830933447847777,
+                "90.0" : 0.026830933447847777,
+                "95.0" : 0.026830933447847777,
+                "99.0" : 0.026830933447847777,
+                "99.9" : 0.026830933447847777,
+                "99.99" : 0.026830933447847777,
+                "99.999" : 0.026830933447847777,
+                "99.9999" : 0.026830933447847777,
+                "100.0" : 0.026830933447847777
+            },
+            "scoreUnit" : "ops/ns",
+            "rawData" : [
+                [
+                    0.026830933447847777
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+            "app.cpu.mhz" : {
+                "score" : 4599.703092980425,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 4599.703092980425,
+                    "50.0" : 4599.703092980425,
+                    "90.0" : 4599.703092980425,
+                    "95.0" : 4599.703092980425,
+                    "99.0" : 4599.703092980425,
+                    "99.9" : 4599.703092980425,
+                    "99.99" : 4599.703092980425,
+                    "99.999" : 4599.703092980425,
+                    "99.9999" : 4599.703092980425,
+                    "100.0" : 4599.703092980425
+                },
+                "scoreUnit" : "MHz",
+                "rawData" : [
+                    [
+                        4599.703092980425
+                    ]
+                ]
+            },
+            "app.cpu.power" : {
+                "score" : 35.098071646971775,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 35.098071646971775,
+                    "50.0" : 35.098071646971775,
+                    "90.0" : 35.098071646971775,
+                    "95.0" : 35.098071646971775,
+                    "99.0" : 35.098071646971775,
+                    "99.9" : 35.098071646971775,
+                    "99.99" : 35.098071646971775,
+                    "99.999" : 35.098071646971775,
+                    "99.9999" : 35.098071646971775,
+                    "100.0" : 35.098071646971775
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        35.098071646971775
+                    ]
+                ]
+            },
+            "app.cpu.power.limit" : {
+                "score" : 80.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    80.0,
+                    80.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 80.0,
+                    "50.0" : 80.0,
+                    "90.0" : 80.0,
+                    "95.0" : 80.0,
+                    "99.0" : 80.0,
+                    "99.9" : 80.0,
+                    "99.99" : 80.0,
+                    "99.999" : 80.0,
+                    "99.9999" : 80.0,
+                    "100.0" : 80.0
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        80.0
+                    ]
+                ]
+            },
+            "app.cpu.util" : {
+                "score" : 8.976510067114093,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 8.976510067114093,
+                    "50.0" : 8.976510067114093,
+                    "90.0" : 8.976510067114093,
+                    "95.0" : 8.976510067114093,
+                    "99.0" : 8.976510067114093,
+                    "99.9" : 8.976510067114093,
+                    "99.99" : 8.976510067114093,
+                    "99.999" : 8.976510067114093,
+                    "99.9999" : 8.976510067114093,
+                    "100.0" : 8.976510067114093
+                },
+                "scoreUnit" : "%",
+                "rawData" : [
+                    [
+                        8.976510067114093
+                    ]
+                ]
+            },
+            "app.temp" : {
+                "score" : 78.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    78.0,
+                    78.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 78.0,
+                    "50.0" : 78.0,
+                    "90.0" : 78.0,
+                    "95.0" : 78.0,
+                    "99.0" : 78.0,
+                    "99.9" : 78.0,
+                    "99.99" : 78.0,
+                    "99.999" : 78.0,
+                    "99.9999" : 78.0,
+                    "100.0" : 78.0
+                },
+                "scoreUnit" : "degC",
+                "rawData" : [
+                    [
+                        78.0
+                    ]
+                ]
+            },
+            "app.thermal.throttles" : {
+                "score" : 0.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    0.0,
+                    0.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 0.0,
+                    "50.0" : 0.0,
+                    "90.0" : 0.0,
+                    "95.0" : 0.0,
+                    "99.0" : 0.0,
+                    "99.9" : 0.0,
+                    "99.99" : 0.0,
+                    "99.999" : 0.0,
+                    "99.9999" : 0.0,
+                    "100.0" : 0.0
+                },
+                "scoreUnit" : "#",
+                "rawData" : [
+                    [
+                        0.0
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.vladmihalcea.phd.reservoir.jmh.UpdateThroughputBenchmark.update",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/temurin-25/bin/java",
+        "jvmArgs" : [
+            "-Xms8g",
+            "-Xmx8g",
+            "-XX:+AlwaysPreTouch",
+            "-Djmh.forks=1",
+            "-Djmh.warmup=1",
+            "-Djmh.iters=1",
+            "-Djmh.secs=1",
+            "-Djmh.param.k=1028",
+            "-Djmh.param.strategy=OpenTelemetry-Explicit,OpenTelemetry-Exponential"
+        ],
+        "jdkVersion" : "25.0.3",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "25.0.3+9-LTS",
+        "warmupIterations" : 1,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 1,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "k" : "1028",
+            "strategy" : "OpenTelemetry-Explicit"
+        },
+        "primaryMetric" : {
+            "score" : 23.33957209535658,
+            "scoreError" : "NaN",
+            "scoreConfidence" : [
+                "NaN",
+                "NaN"
+            ],
+            "scorePercentiles" : {
+                "0.0" : 23.33957209535658,
+                "50.0" : 23.33957209535658,
+                "90.0" : 23.33957209535658,
+                "95.0" : 23.33957209535658,
+                "99.0" : 23.33957209535658,
+                "99.9" : 23.33957209535658,
+                "99.99" : 23.33957209535658,
+                "99.999" : 23.33957209535658,
+                "99.9999" : 23.33957209535658,
+                "100.0" : 23.33957209535658
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    23.33957209535658
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+            "app.cpu.mhz" : {
+                "score" : 4597.145000999556,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 4597.145000999556,
+                    "50.0" : 4597.145000999556,
+                    "90.0" : 4597.145000999556,
+                    "95.0" : 4597.145000999556,
+                    "99.0" : 4597.145000999556,
+                    "99.9" : 4597.145000999556,
+                    "99.99" : 4597.145000999556,
+                    "99.999" : 4597.145000999556,
+                    "99.9999" : 4597.145000999556,
+                    "100.0" : 4597.145000999556
+                },
+                "scoreUnit" : "MHz",
+                "rawData" : [
+                    [
+                        4597.145000999556
+                    ]
+                ]
+            },
+            "app.cpu.power" : {
+                "score" : 34.30813729051947,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 34.30813729051947,
+                    "50.0" : 34.30813729051947,
+                    "90.0" : 34.30813729051947,
+                    "95.0" : 34.30813729051947,
+                    "99.0" : 34.30813729051947,
+                    "99.9" : 34.30813729051947,
+                    "99.99" : 34.30813729051947,
+                    "99.999" : 34.30813729051947,
+                    "99.9999" : 34.30813729051947,
+                    "100.0" : 34.30813729051947
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        34.30813729051947
+                    ]
+                ]
+            },
+            "app.cpu.power.limit" : {
+                "score" : 80.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    80.0,
+                    80.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 80.0,
+                    "50.0" : 80.0,
+                    "90.0" : 80.0,
+                    "95.0" : 80.0,
+                    "99.0" : 80.0,
+                    "99.9" : 80.0,
+                    "99.99" : 80.0,
+                    "99.999" : 80.0,
+                    "99.9999" : 80.0,
+                    "100.0" : 80.0
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        80.0
+                    ]
+                ]
+            },
+            "app.cpu.util" : {
+                "score" : 8.717518860016764,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 8.717518860016764,
+                    "50.0" : 8.717518860016764,
+                    "90.0" : 8.717518860016764,
+                    "95.0" : 8.717518860016764,
+                    "99.0" : 8.717518860016764,
+                    "99.9" : 8.717518860016764,
+                    "99.99" : 8.717518860016764,
+                    "99.999" : 8.717518860016764,
+                    "99.9999" : 8.717518860016764,
+                    "100.0" : 8.717518860016764
+                },
+                "scoreUnit" : "%",
+                "rawData" : [
+                    [
+                        8.717518860016764
+                    ]
+                ]
+            },
+            "app.temp" : {
+                "score" : 77.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    77.0,
+                    77.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 77.0,
+                    "50.0" : 77.0,
+                    "90.0" : 77.0,
+                    "95.0" : 77.0,
+                    "99.0" : 77.0,
+                    "99.9" : 77.0,
+                    "99.99" : 77.0,
+                    "99.999" : 77.0,
+                    "99.9999" : 77.0,
+                    "100.0" : 77.0
+                },
+                "scoreUnit" : "degC",
+                "rawData" : [
+                    [
+                        77.0
+                    ]
+                ]
+            },
+            "app.thermal.throttles" : {
+                "score" : 0.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    0.0,
+                    0.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 0.0,
+                    "50.0" : 0.0,
+                    "90.0" : 0.0,
+                    "95.0" : 0.0,
+                    "99.0" : 0.0,
+                    "99.9" : 0.0,
+                    "99.99" : 0.0,
+                    "99.999" : 0.0,
+                    "99.9999" : 0.0,
+                    "100.0" : 0.0
+                },
+                "scoreUnit" : "#",
+                "rawData" : [
+                    [
+                        0.0
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.vladmihalcea.phd.reservoir.jmh.UpdateThroughputBenchmark.update",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/temurin-25/bin/java",
+        "jvmArgs" : [
+            "-Xms8g",
+            "-Xmx8g",
+            "-XX:+AlwaysPreTouch",
+            "-Djmh.forks=1",
+            "-Djmh.warmup=1",
+            "-Djmh.iters=1",
+            "-Djmh.secs=1",
+            "-Djmh.param.k=1028",
+            "-Djmh.param.strategy=OpenTelemetry-Explicit,OpenTelemetry-Exponential"
+        ],
+        "jdkVersion" : "25.0.3",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "25.0.3+9-LTS",
+        "warmupIterations" : 1,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 1,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "k" : "1028",
+            "strategy" : "OpenTelemetry-Exponential"
+        },
+        "primaryMetric" : {
+            "score" : 37.250891362103204,
+            "scoreError" : "NaN",
+            "scoreConfidence" : [
+                "NaN",
+                "NaN"
+            ],
+            "scorePercentiles" : {
+                "0.0" : 37.250891362103204,
+                "50.0" : 37.250891362103204,
+                "90.0" : 37.250891362103204,
+                "95.0" : 37.250891362103204,
+                "99.0" : 37.250891362103204,
+                "99.9" : 37.250891362103204,
+                "99.99" : 37.250891362103204,
+                "99.999" : 37.250891362103204,
+                "99.9999" : 37.250891362103204,
+                "100.0" : 37.250891362103204
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    37.250891362103204
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+            "app.cpu.mhz" : {
+                "score" : 4598.095049672891,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 4598.095049672891,
+                    "50.0" : 4598.095049672891,
+                    "90.0" : 4598.095049672891,
+                    "95.0" : 4598.095049672891,
+                    "99.0" : 4598.095049672891,
+                    "99.9" : 4598.095049672891,
+                    "99.99" : 4598.095049672891,
+                    "99.999" : 4598.095049672891,
+                    "99.9999" : 4598.095049672891,
+                    "100.0" : 4598.095049672891
+                },
+                "scoreUnit" : "MHz",
+                "rawData" : [
+                    [
+                        4598.095049672891
+                    ]
+                ]
+            },
+            "app.cpu.power" : {
+                "score" : 35.06099588586331,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 35.06099588586331,
+                    "50.0" : 35.06099588586331,
+                    "90.0" : 35.06099588586331,
+                    "95.0" : 35.06099588586331,
+                    "99.0" : 35.06099588586331,
+                    "99.9" : 35.06099588586331,
+                    "99.99" : 35.06099588586331,
+                    "99.999" : 35.06099588586331,
+                    "99.9999" : 35.06099588586331,
+                    "100.0" : 35.06099588586331
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        35.06099588586331
+                    ]
+                ]
+            },
+            "app.cpu.power.limit" : {
+                "score" : 80.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    80.0,
+                    80.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 80.0,
+                    "50.0" : 80.0,
+                    "90.0" : 80.0,
+                    "95.0" : 80.0,
+                    "99.0" : 80.0,
+                    "99.9" : 80.0,
+                    "99.99" : 80.0,
+                    "99.999" : 80.0,
+                    "99.9999" : 80.0,
+                    "100.0" : 80.0
+                },
+                "scoreUnit" : "W",
+                "rawData" : [
+                    [
+                        80.0
+                    ]
+                ]
+            },
+            "app.cpu.util" : {
+                "score" : 8.885163453478626,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    "NaN",
+                    "NaN"
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 8.885163453478626,
+                    "50.0" : 8.885163453478626,
+                    "90.0" : 8.885163453478626,
+                    "95.0" : 8.885163453478626,
+                    "99.0" : 8.885163453478626,
+                    "99.9" : 8.885163453478626,
+                    "99.99" : 8.885163453478626,
+                    "99.999" : 8.885163453478626,
+                    "99.9999" : 8.885163453478626,
+                    "100.0" : 8.885163453478626
+                },
+                "scoreUnit" : "%",
+                "rawData" : [
+                    [
+                        8.885163453478626
+                    ]
+                ]
+            },
+            "app.temp" : {
+                "score" : 75.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    75.0,
+                    75.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 75.0,
+                    "50.0" : 75.0,
+                    "90.0" : 75.0,
+                    "95.0" : 75.0,
+                    "99.0" : 75.0,
+                    "99.9" : 75.0,
+                    "99.99" : 75.0,
+                    "99.999" : 75.0,
+                    "99.9999" : 75.0,
+                    "100.0" : 75.0
+                },
+                "scoreUnit" : "degC",
+                "rawData" : [
+                    [
+                        75.0
+                    ]
+                ]
+            },
+            "app.thermal.throttles" : {
+                "score" : 0.0,
+                "scoreError" : "NaN",
+                "scoreConfidence" : [
+                    0.0,
+                    0.0
+                ],
+                "scorePercentiles" : {
+                    "0.0" : 0.0,
+                    "50.0" : 0.0,
+                    "90.0" : 0.0,
+                    "95.0" : 0.0,
+                    "99.0" : 0.0,
+                    "99.9" : 0.0,
+                    "99.99" : 0.0,
+                    "99.999" : 0.0,
+                    "99.9999" : 0.0,
+                    "100.0" : 0.0
+                },
+                "scoreUnit" : "#",
+                "rawData" : [
+                    [
+                        0.0
+                    ]
+                ]
+            }
+        }
+    }
+]
+
+

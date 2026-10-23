@@ -1,0 +1,11 @@
+impl,alpha,rep,invalid_checkpoints,longest_frozen_s,converge_s,jump_at_1h,jump_at_2h,jump_at_3h,median_step_change
+Dropwizard-ExpDecay,0.0150000,0,0,30,30.0000,2.99593e+06,1.00830e+06,,1.67502e+06
+Dropwizard-ExpDecay,0.100000,0,0,10,10.0000,136340,4.50031e+06,,5.05106e+06
+Dropwizard-ExpDecay,0.190000,0,0,10,10.0000,3.88984e+06,2.98449e+06,,5.06353e+06
+Dropwizard-ExpDecay,0.200000,0,0,50,10.0000,264499,853456,,5.12105e+06
+Dropwizard-ExpDecay,0.300000,0,3,1230,610.000,1.13019e+08,1.07968e+08,,1.32402e+06
+Dropwizard-LockFreeExpDecay,0.0150000,0,0,30,30.0000,5.67234e+06,1.27274e+07,,1.81427e+06
+Dropwizard-LockFreeExpDecay,0.100000,0,0,10,10.0000,12655.0,1.41632e+07,,5.14046e+06
+Dropwizard-LockFreeExpDecay,0.190000,0,0,10,10.0000,3.88984e+06,3.71069e+06,,5.05965e+06
+Dropwizard-LockFreeExpDecay,0.200000,0,0,50,10.0000,2.44370e+07,1.03255e+07,,5.31222e+06
+Dropwizard-LockFreeExpDecay,0.300000,0,3,1220,610.000,1.09005e+08,1.07968e+08,,1.32234e+06

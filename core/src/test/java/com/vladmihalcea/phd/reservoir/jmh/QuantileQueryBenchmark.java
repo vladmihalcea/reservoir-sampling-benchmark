@@ -31,7 +31,8 @@ public class QuantileQueryBenchmark {
 
     @Param({"Vitter-R", "ES-A-ExpJ", "WRS-B", "Dropwizard-Uniform", "Dropwizard-ExpDecay",
             "Micrometer-Summary", "Prometheus-CKMS", "Prometheus-Native", "Prometheus-Histogram",
-            "HdrHistogram", "VictoriaMetrics"})
+            "HdrHistogram", "VictoriaMetrics", "OpenTelemetry-Explicit",
+            "OpenTelemetry-Exponential"})
     public String strategy;
 
     private SamplingStrategy sampler;

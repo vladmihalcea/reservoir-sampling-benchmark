@@ -1,0 +1,9 @@
+strategy,k_needed,target_error,k_needed_median,k_needed_p90,k_needed_mean_point
+Vitter-R,512,0.0500000,128,512,128
+Vitter-L-skip,128,0.0500000,128,128,128
+ES-A-Res,2048,0.0500000,128,256,128
+ES-A-ExpJ,512,0.0500000,128,512,128
+ForwardDecay-0.015,512,0.0500000,128,128,128
+WRS-B,512,0.0500000,128,512,128
+Dropwizard-Uniform,64,0.0500000,64,64,64
+Dropwizard-ExpDecay,128,0.0500000,128,128,128

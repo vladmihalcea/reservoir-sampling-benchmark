@@ -54,6 +54,11 @@ public class DropwizardSlidingTimeWindow implements SamplingStrategy {
         return snapshot.getValue(q);
     }
 
+    /** The number of samples the reservoir currently retains ({@code Reservoir.size()}). */
+    public int retained() {
+        return reservoir.size();
+    }
+
     @Override
     public void reset() {
         reservoir = new SlidingTimeWindowArrayReservoir(windowNanos, TimeUnit.NANOSECONDS, dropwizardClock);

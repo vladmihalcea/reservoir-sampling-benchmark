@@ -1,0 +1,9 @@
+strategy,k_needed,target_error
+Vitter-R,4096,0.0500000
+Vitter-L-skip,4096,0.0500000
+ES-A-Res,2048,0.0500000
+ES-A-ExpJ,4096,0.0500000
+ForwardDecay-0.015,4096,0.0500000
+WRS-B,4096,0.0500000
+Dropwizard-Uniform,4096,0.0500000
+Dropwizard-ExpDecay,8192,0.0500000

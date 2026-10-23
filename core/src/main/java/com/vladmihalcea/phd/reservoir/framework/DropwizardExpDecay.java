@@ -63,6 +63,19 @@ public class DropwizardExpDecay implements SamplingStrategy {
         return snapshot.getValue(q);
     }
 
+    /**
+     * The reservoir's own snapshot: {@code getValues()} are the retained samples unweighted, while
+     * {@code getValue(q)} weighs each by its forward-decay weight, as {@link #valueAtQuantile} does.
+     */
+    public Snapshot snapshot() {
+        return reservoir.getSnapshot();
+    }
+
+    /** The number of samples the reservoir currently retains ({@code Reservoir.size()}). */
+    public int retained() {
+        return reservoir.size();
+    }
+
     @Override
     public void reset() {
         reservoir = new ExponentiallyDecayingReservoir(size, alpha, dropwizardClock);

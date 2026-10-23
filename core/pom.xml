@@ -43,6 +43,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- OpenTelemetry SDK metrics: the explicit-bucket and base-2 exponential histograms of the framework audit. -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-sdk-metrics</artifactId>
+            <version>${opentelemetry.version}</version>
+        </dependency>
 
         <!-- Logging -->
         <dependency>
@@ -138,5 +144,51 @@
             </testResource>
         </testResources>
     </build>
+
+    <profiles>
+        <!--
+          Part of the self-contained bundle for the Hostner servers (mvn -P bundle -DskipTests package, built by
+          the starvation module): the test classes as a jar and every test-scope dependency in target/bundle-lib.
+        -->
+        <profile>
+            <id>bundle</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${maven-jar-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>bundle-test-jar</id>
+                                <goals>
+                                    <goal>test-jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>bundle-lib</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <includeScope>test</includeScope>
+                                    <excludeArtifactIds>reservoir-sampling-benchmark-core</excludeArtifactIds>
+                                    <outputDirectory>${project.build.directory}/bundle-lib</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

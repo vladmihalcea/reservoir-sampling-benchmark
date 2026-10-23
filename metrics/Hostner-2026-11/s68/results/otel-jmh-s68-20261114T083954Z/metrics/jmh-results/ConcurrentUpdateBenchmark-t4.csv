@@ -1,0 +1,8 @@
+benchmark,mode,strategy,threads,score,score_error,unit,alloc_rate_norm,app.cpu.mhz,app.cpu.power,app.cpu.power.limit,app.cpu.util,app.temp,app.thermal.throttles
+update,thrpt,OpenTelemetry-Explicit,4,9.00548,0.217781,ops/us,,4501.86,61.1008,80.0000,30.4823,73.0000,0.00000
+update,thrpt,OpenTelemetry-Exponential,4,11.3205,0.285874,ops/us,,4505.17,57.2866,80.0000,24.2959,68.0000,0.00000
+update,thrpt,Prometheus-Native,4,25.1112,0.808026,ops/us,,4594.82,60.4386,80.0000,33.4184,69.0000,0.00000
+update,thrpt,Prometheus-Histogram,4,25.5294,0.410031,ops/us,,4549.86,51.0456,80.0000,16.8734,70.0000,0.00000
+update,thrpt,HdrHistogram,4,22.4617,0.270164,ops/us,,4552.38,48.8001,80.0000,16.7929,68.0000,0.00000
+update,thrpt,Micrometer-Summary,4,4.09559,0.106844,ops/us,,4599.82,59.0890,80.0000,33.4130,66.0000,0.00000
+update,thrpt,Dropwizard-ExpDecay,4,6.87506,0.153534,ops/us,,4599.65,60.3913,80.0000,33.4229,68.0000,0.00000

@@ -1,8 +1,10 @@
 package com.vladmihalcea.phd.reservoir.common.util;
 
+import com.vladmihalcea.phd.reservoir.common.telemetry.TelemetryProfiler;
 import com.vladmihalcea.phd.reservoir.util.CsvWriter;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.profile.GCProfiler;
+import org.openjdk.jmh.profile.Profiler;
 import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.results.format.ResultFormatType;
@@ -23,6 +25,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,7 +40,33 @@ public abstract class AbstractBenchmarkTest {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
+    /**
+     * Prefix of the system properties that override a {@code @Param}, e.g.
+     * {@code -Djmh.param.recorder=none,Dropwizard-ExpDecay} for a short smoke run of one benchmark.
+     */
+    protected static final String PARAM_PREFIX = "jmh.param.";
+
     protected abstract Class<?> benchmarkClass();
+
+    /**
+     * Extra JVM options of the forked benchmark JVMs, appended after the forwarded {@code rs.*} and
+     * {@code usl.*} settings, e.g. the heap of a benchmark that retains millions of samples.
+     */
+    protected List<String> forkJvmArgs() {
+        return List.of();
+    }
+
+    /**
+     * JMH's iteration timeout: after it, JMH interrupts the benchmark thread, so a cell that collapses under
+     * contention cannot stall a whole campaign. {@code null} keeps JMH's default (10 minutes).
+     */
+    protected TimeValue iterationTimeout() {
+        return null;
+    }
+
+    /** Runs in the host JVM before the forks start, e.g. to clear a side output of an earlier run. */
+    protected void beforeRun() {
+    }
 
     // Defaults are publication-grade; a quick pass can shrink them, e.g. -Djmh.forks=1 -Djmh.iters=1 -Djmh.secs=1.
     protected int warmupIterations() {
@@ -79,8 +108,25 @@ public abstract class AbstractBenchmarkTest {
         return Boolean.getBoolean("jmh.profGc");
     }
 
+    /**
+     * Whether to attach the {@link TelemetryProfiler} of the TOSEM harness, which reports, for every iteration, the
+     * CPU clock, utilization, performance limit, temperature, thermal throttling, and package power of the host
+     * that runs the forks ({@code app.*}) and, when {@code TELEMETRY_AGENT_URL} names the telemetry agent of the
+     * database host, of that host too ({@code db.*}). On by default, so every JMH block of the campaign shows whether
+     * the CPU held its clock; {@code -Drs.telemetry=false} turns it off.
+     */
+    protected boolean profileTelemetry() {
+        return Boolean.parseBoolean(System.getProperty("rs.telemetry", "true"));
+    }
+
+    /** Further JMH profilers of a benchmark, e.g. the per-iteration recorder measurements of V6. */
+    protected List<Class<? extends Profiler>> extraProfilers() {
+        return List.of();
+    }
+
     @Test
     public void runBenchmarks() throws RunnerException {
+        beforeRun();
         int[] sweep = threadSweep();
         if (sweep == null) {
             Collection<RunResult> results = execute(1, resultFile(""));
@@ -120,6 +166,13 @@ public abstract class AbstractBenchmarkTest {
         header.add("score_error");
         header.add("unit");
         header.add("alloc_rate_norm");
+        Set<String> secondaryKeys = new TreeSet<>();
+        for (RunResult result : results) {
+            if (result.getSecondaryResults() != null) {
+                secondaryKeys.addAll(result.getSecondaryResults().keySet());
+            }
+        }
+        header.addAll(secondaryKeys);
 
         Path csv = CsvWriter.metricsPath("jmh-results", benchmarkClass().getSimpleName() + suffix + ".csv");
         try (CsvWriter out = new CsvWriter(csv, header.toArray(new String[0]))) {
@@ -136,6 +189,11 @@ public abstract class AbstractBenchmarkTest {
                 row.add(result.getPrimaryResult().getScoreError());
                 row.add(result.getPrimaryResult().getScoreUnit());
                 row.add(allocRateNorm(result));
+                for (String key : secondaryKeys) {
+                    Result secondary = result.getSecondaryResults() == null ? null
+                            : result.getSecondaryResults().get(key);
+                    row.add(secondary == null ? "" : String.format(java.util.Locale.ROOT, "%.6g", secondary.getScore()));
+                }
                 out.writeRow(row.toArray());
             }
         }
@@ -164,6 +222,29 @@ public abstract class AbstractBenchmarkTest {
                 .shouldFailOnError(true);
         if (profileAllocations()) {
             builder.addProfiler(GCProfiler.class);
+        }
+        if (profileTelemetry()) {
+            builder.addProfiler(TelemetryProfiler.class);
+        }
+        for (Class<? extends Profiler> profiler : extraProfilers()) {
+            builder.addProfiler(profiler);
+        }
+        if (iterationTimeout() != null) {
+            builder.timeout(iterationTimeout());
+        }
+        // Maven sets the -D properties of a run programmatically, so the forked JVMs would not see them: the
+        // experiment settings (rs.*, usl.*) are passed on explicitly, and jmh.param.* overrides a @Param.
+        List<String> forkedArgs = new ArrayList<>();
+        for (String name : System.getProperties().stringPropertyNames()) {
+            if (name.startsWith("rs.") || name.startsWith("usl.")) {
+                forkedArgs.add("-D" + name + "=" + System.getProperty(name));
+            } else if (name.startsWith(PARAM_PREFIX)) {
+                builder.param(name.substring(PARAM_PREFIX.length()), System.getProperty(name).split(","));
+            }
+        }
+        forkedArgs.addAll(forkJvmArgs());
+        if (!forkedArgs.isEmpty()) {
+            builder.jvmArgsAppend(forkedArgs.toArray(new String[0]));
         }
         if (resultFile != null) {
             builder.resultFormat(ResultFormatType.JSON)

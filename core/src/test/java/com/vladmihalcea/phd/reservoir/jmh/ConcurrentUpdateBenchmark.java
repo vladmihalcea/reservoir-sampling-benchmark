@@ -45,7 +45,7 @@ public class ConcurrentUpdateBenchmark {
 
     @Param({"Vitter-R", "ES-A-ExpJ", "WRS-B", "HdrHistogram", "Prometheus-Histogram",
             "Dropwizard-Uniform", "Dropwizard-ExpDecay", "Micrometer-Summary",
-            "Prometheus-CKMS", "Prometheus-Native"})
+            "Prometheus-CKMS", "Prometheus-Native", "OpenTelemetry-Explicit", "OpenTelemetry-Exponential"})
     public String strategy;
 
     private static final int VALUE_COUNT = 1 << 16;

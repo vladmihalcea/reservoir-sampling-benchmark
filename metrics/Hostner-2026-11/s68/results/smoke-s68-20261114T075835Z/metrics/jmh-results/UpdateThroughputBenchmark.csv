@@ -1,0 +1,5 @@
+benchmark,mode,k,strategy,threads,score,score_error,unit,alloc_rate_norm,app.cpu.mhz,app.cpu.power,app.cpu.power.limit,app.cpu.util,app.temp,app.thermal.throttles
+update,thrpt,1028,OpenTelemetry-Explicit,1,0.0400997,NaN,ops/ns,,4598.18,35.0133,80.0000,8.80134,75.0000,0.00000
+update,thrpt,1028,OpenTelemetry-Exponential,1,0.0274269,NaN,ops/ns,,4597.27,33.9680,80.0000,8.64094,74.0000,0.00000
+update,avgt,1028,OpenTelemetry-Explicit,1,25.2941,NaN,ns/op,,4598.65,33.6713,80.0000,8.62647,75.0000,0.00000
+update,avgt,1028,OpenTelemetry-Exponential,1,36.8143,NaN,ns/op,,4598.03,34.8759,80.0000,8.71022,74.0000,0.00000

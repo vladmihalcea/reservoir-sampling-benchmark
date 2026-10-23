@@ -21,7 +21,9 @@ import java.util.LinkedHashMap;
  * error alpha leaves on a stationary tail and E8 measures convergence at the single hardcoded
  * {@code alpha=0.015}, this experiment sweeps alpha over a step change in the latency distribution and
  * records, for each alpha, the p99 error as a function of the number of post-shift observations — and the
- * number of updates each alpha needs to bring p99 within 5% of the new truth.
+ * number of updates after which each alpha keeps p99 within 10% of the new truth at every later checkpoint.
+ * The bound is 10%, not 5%, because a k=1028 reservoir's steady-state p99 error is itself 5-9% on this
+ * workload: a 5% bound would be met or missed by sampling noise, not by adaptation.
  * <p>
  * A larger alpha forgets the old regime faster (converges sooner) but retains fewer effective samples
  * (noisier steady state); the hardcoded 0.015 sits at one fixed point on that curve, never chosen for any
@@ -38,7 +40,7 @@ public class AlphaConvergenceExperimentTest {
     private static final int PRE_SHIFT = 200_000;
     private static final int POST_SHIFT = 400_000;
     private static final int[] CHECKPOINTS = {0, 1_000, 5_000, 10_000, 25_000, 50_000, 100_000, 200_000, 399_999};
-    private static final double CONVERGED = 0.05;
+    private static final double CONVERGED = 0.10;
     private static final int REPETITIONS = Integer.getInteger("rs.reps", 20);
     private static final long BASE_SEED = 6_000L;
 
@@ -70,7 +72,7 @@ public class AlphaConvergenceExperimentTest {
                     Clock.Manual clock = new Clock.Manual();
                     long step = Math.max(1, StrategyCatalog.TRACE_SPAN_NANOS / (PRE_SHIFT + POST_SHIFT));
                     ForwardDecayReservoir reservoir = new ForwardDecayReservoir(
-                            StrategyCatalog.DEFAULT_K, alpha, clock, seed);
+                            StrategyCatalog.DEFAULT_K, alpha, clock, StrategyCatalog.strategySeed(seed));
 
                     for (long value : pre) {
                         clock.advanceNanos(step);
@@ -90,17 +92,19 @@ public class AlphaConvergenceExperimentTest {
                 }
 
                 double[] means = new double[CHECKPOINTS.length];
-                int converged = -1;
                 for (int i = 0; i < CHECKPOINTS.length; i++) {
                     out.writeRow(alpha, CHECKPOINTS[i], stats[i].mean(), stats[i].ci95HalfWidth());
                     means[i] = stats[i].mean();
-                    if (converged < 0 && means[i] <= CONVERGED) {
-                        converged = CHECKPOINTS[i];
-                    }
+                }
+                // Converged at the first checkpoint from which the error stays within the bound, so an error that
+                // dips below it once and climbs back does not count.
+                int converged = -1;
+                for (int i = CHECKPOINTS.length - 1; i >= 0 && means[i] <= CONVERGED; i--) {
+                    converged = CHECKPOINTS[i];
                 }
                 curves.put(alpha, means);
                 convergeUpdates.put(alpha, converged);
-                LOGGER.info("alpha={} converges to within {} of new p99 after {} updates",
+                LOGGER.info("alpha={} stays within {} of the new p99 from {} updates on",
                         alpha, CONVERGED, converged < 0 ? ">" + POST_SHIFT : converged);
             }
         }

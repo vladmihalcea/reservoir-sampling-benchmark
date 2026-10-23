@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The self-contained bundle of the journal-extension campaign (mvn -P bundle -DskipTests package): the main and test
+  classes of both modules, every test-scope dependency in lib/, and the scripts of the repository's bundle/ folder,
+  with Unix line endings whatever the checkout used. A server needs only Java 25.
+-->
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 https://maven.apache.org/xsd/assembly-2.2.0.xsd">
+    <id>bundle</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>reservoir-bundle</baseDirectory>
+    <files>
+        <file>
+            <source>${project.basedir}/../core/target/reservoir-sampling-benchmark-core-${project.version}.jar</source>
+            <destName>core.jar</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../core/target/reservoir-sampling-benchmark-core-${project.version}-tests.jar</source>
+            <destName>core-tests.jar</destName>
+        </file>
+        <file>
+            <source>${project.build.directory}/${project.build.finalName}.jar</source>
+            <destName>starvation.jar</destName>
+        </file>
+        <file>
+            <source>${project.build.directory}/${project.build.finalName}-tests.jar</source>
+            <destName>starvation-tests.jar</destName>
+        </file>
+    </files>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/../core/target/bundle-lib</directory>
+            <outputDirectory>lib</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/bundle-lib</directory>
+            <outputDirectory>lib</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../bundle</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../bundle</directory>
+            <outputDirectory></outputDirectory>
+            <excludes>
+                <exclude>*.sh</exclude>
+            </excludes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+    </fileSets>
+</assembly>

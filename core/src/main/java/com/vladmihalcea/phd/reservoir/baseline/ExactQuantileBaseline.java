@@ -50,6 +50,33 @@ public final class ExactQuantileBaseline {
         return Quantiles.valueAtQuantile(data, length, q);
     }
 
+    /** Exact quantile over an array that is already sorted ascending, without copying it. */
+    public static double ofSorted(long[] sorted, int length, double q) {
+        return Quantiles.valueAtQuantileSorted(sorted, length, q);
+    }
+
+    /**
+     * The empirical CDF of an ascending array at {@code x}: the share of the values at or below it. The rank error of
+     * an estimate, {@code |F(estimate) - q|}, is the error that the sampling guarantees bound; the relative value
+     * error is what an operator reads.
+     */
+    public static double cdfSorted(long[] sorted, int length, double x) {
+        if (length == 0 || Double.isNaN(x)) {
+            return Double.NaN;
+        }
+        int lo = 0;
+        int hi = length;
+        while (lo < hi) {
+            int mid = (lo + hi) >>> 1;
+            if (sorted[mid] <= x) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        return lo / (double) length;
+    }
+
     public int size() {
         return length;
     }

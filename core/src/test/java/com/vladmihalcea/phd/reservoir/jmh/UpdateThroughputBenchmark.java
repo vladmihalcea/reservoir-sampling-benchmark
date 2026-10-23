@@ -37,7 +37,8 @@ public class UpdateThroughputBenchmark {
 
     @Param({"Vitter-R", "Vitter-L-skip", "ES-A-Res", "ES-A-ExpJ", "ForwardDecay-0.015", "WRS-B",
             "Dropwizard-Uniform", "Dropwizard-ExpDecay", "Micrometer-Summary", "Prometheus-CKMS",
-            "Prometheus-Native", "Prometheus-Histogram", "HdrHistogram", "VictoriaMetrics"})
+            "Prometheus-Native", "Prometheus-Histogram", "HdrHistogram", "VictoriaMetrics",
+            "OpenTelemetry-Explicit", "OpenTelemetry-Exponential"})
     public String strategy;
 
     @Param({"128", "512", "1028", "4096"})

@@ -1,0 +1,133 @@
+
+## time
+2026-11-17T07:48:28Z
+ 08:48:28 up 10 days, 21:58,  0 users,  load average: 1.06, 1.05, 1.01
+
+## host
+s66.hostner.eu
+Linux s66.hostner.eu 7.0.0-42-generic #42-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 15 08:06:44 UTC 2026 x86_64 GNU/Linux
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+VERSION_ID="26.04"
+PowerEdge R240
+2.7.1
+
+## cpu
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           39 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  12
+On-line CPU(s) list:                     0-11
+Vendor ID:                               GenuineIntel
+Model name:                              Intel(R) Xeon(R) E-2276G CPU @ 3.80GHz
+CPU family:                              6
+Model:                                   158
+Thread(s) per core:                      2
+Core(s) per socket:                      6
+Socket(s):                               1
+Stepping:                                10
+CPU(s) scaling MHz:                      67%
+CPU max MHz:                             4900.0000
+CPU min MHz:                             800.0000
+BogoMIPS:                                7599.80
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust sgx bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_act_window hwp_epp vnmi sgx_lc md_clear flush_l1d arch_capabilities
+Virtualization:                          VT-x
+L1d cache:                               192 KiB (6 instances)
+L1i cache:                               192 KiB (6 instances)
+L2 cache:                                1.5 MiB (6 instances)
+L3 cache:                                12 MiB (1 instance)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-11
+Vulnerability Gather data sampling:      Vulnerable
+Vulnerability Ghostwrite:                Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             KVM: Mitigation: Split huge pages
+Vulnerability L1tf:                      Mitigation; PTE Inversion; VMX conditional cache flushes, SMT vulnerable
+Vulnerability Mds:                       Mitigation; Clear CPU buffers; SMT vulnerable
+Vulnerability Meltdown:                  Mitigation; PTI
+Vulnerability Mmio stale data:           Mitigation; Clear CPU buffers; SMT vulnerable
+Vulnerability Old microcode:             Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Mitigation; IBRS
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; IBRS; IBPB conditional; STIBP conditional; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Mitigation; Microcode
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Mitigation; TSX disabled
+Vulnerability Vmscape:                   Mitigation; IBPB before exit to userspace
+governor: performance
+energy_performance_preference: performance
+intel_pstate no_turbo: 0
+idle POLL latency=0us disabled=0
+idle C1 latency=2us disabled=0
+idle C1E latency=10us disabled=1
+idle C3 latency=70us disabled=1
+idle C6 latency=85us disabled=1
+idle C7s latency=124us disabled=1
+idle C8 latency=200us disabled=1
+idle C9 latency=480us disabled=1
+idle C10 latency=890us disabled=1
+thermal throttle counts (core package): 0 0
+
+## memory and limits
+               total        used        free      shared  buff/cache   available
+Mem:           31165         841       24132           4        6658       30323
+Swap:           2047           0        2047
+kernel.threads-max: 248754
+kernel.pid_max: 4194304
+vm.max_map_count: 1048576
+transparent_hugepage: always [madvise] never
+real-time non-blocking time  (microseconds, -R) unlimited
+core file size              (blocks, -c) 0
+data seg size               (kbytes, -d) unlimited
+scheduling priority                 (-e) 0
+file size                   (blocks, -f) unlimited
+pending signals                     (-i) 124377
+max locked memory           (kbytes, -l) 8192
+max memory size             (kbytes, -m) unlimited
+open files                          (-n) 1024
+pipe size                (512 bytes, -p) 8
+POSIX message queues         (bytes, -q) 819200
+real-time priority                  (-r) 0
+stack size                  (kbytes, -s) 8192
+cpu time                   (seconds, -t) unlimited
+max user processes                  (-u) 124377
+virtual memory              (kbytes, -v) unlimited
+file locks                          (-x) unlimited
+
+## java
+openjdk version "25.0.3" 2026-04-21 LTS
+OpenJDK Runtime Environment Temurin-25.0.3+9 (build 25.0.3+9-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.3+9 (build 25.0.3+9-LTS, mixed mode, sharing)
+
+## services
+postgresql: inactive
+rs-agent: inactive
+rs-campaign: active
+unattended-upgrades: inactive
+thermald: inactive
+snapd: inactive
+
+## network
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eno1             UP             37.148.161.24/24 fe80::2eea:7fff:fee3:b8a1/64 
+eno2             UP             fe80::2eea:7fff:fee3:b8a2/64 
+
+## busiest processes
+    PID USER     %CPU %MEM     ELAPSED COMMAND
+3679253 _chrony   0.1  0.0  6-19:42:45 /usr/sbin/chronyd -n -F 1
+    606 root      0.0  0.4 10-21:58:03 /usr/lib/systemd/systemd-journald
+     15 root      0.0  0.0 10-21:58:07 [rcu_preempt]
+   1729 root      0.0  0.0 10-21:58:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+      1 root      0.0  0.0 10-21:58:07 /usr/lib/systemd/systemd --switched-root --system --deserialize=56
+3124911 root      0.0  0.0  2-06:32:52 [kworker/6:2-mm_percpu_wq]
+3097089 root      0.0  0.0  2-13:34:02 [kworker/7:2-events]
+3147022 root      0.0  0.0       14:06 [kworker/u48:2-events_power_efficient]
+3145660 root      0.0  0.0    01:05:51 [kworker/u48:1-events_power_efficient]
+   1487 syslog    0.0  0.0 10-21:58:02 /usr/sbin/rsyslogd -n -iNONE
+3146468 root      0.0  0.0       44:46 [kworker/u48:3-events_power_efficient]
+3146997 root      0.0  0.0       23:07 [kworker/1:1-events]
+3125512 root      0.0  0.0  2-06:02:48 [kworker/5:1-events]
+   1391 systemd+  0.0  0.0 10-21:58:02 /usr/lib/systemd/systemd-networkd

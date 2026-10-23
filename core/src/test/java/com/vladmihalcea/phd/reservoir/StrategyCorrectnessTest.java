@@ -24,6 +24,14 @@ class StrategyCorrectnessTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StrategyCorrectnessTest.class);
 
+    /**
+     * Fixed-bucket histograms whose buckets cannot resolve this millisecond-scale stream by design: the OpenTelemetry
+     * HTTP semantic-convention buckets put about 70% of it in the first bucket (0-5 ms), so its p50 is ~19% off. That
+     * error is a result of the study (E6), not a fault of the adapter, which {@code OpenTelemetryHistogramTest} checks
+     * against the exact bucket counts instead.
+     */
+    private static final java.util.Set<String> FIXED_BUCKETS = java.util.Set.of("OpenTelemetry-Explicit");
+
     @Test
     void allStrategiesTrackStationaryQuantiles() {
         int n = 200_000;
@@ -39,6 +47,9 @@ class StrategyCorrectnessTest {
         double trueP99 = baseline.valueAtQuantile(0.99);
 
         for (StrategyCatalog.NamedStrategy named : StrategyCatalog.all(Clock.SYSTEM, 123L)) {
+            if (FIXED_BUCKETS.contains(named.name())) {
+                continue;
+            }
             SamplingStrategy strategy = named.create();
             for (long v : values) {
                 strategy.update(v);
@@ -59,6 +70,31 @@ class StrategyCorrectnessTest {
                     named.name() + " p90 off: got " + p90 + " expected ~" + trueP90);
             assertTrue(ExactQuantileBaseline.relativeError(p99, trueP99) < 0.40,
                     named.name() + " p99 off: got " + p99 + " expected ~" + trueP99);
+        }
+    }
+
+    @Test
+    void productionRecordersTrackStationaryQuantiles() {
+        // The recorder set of the acquisition-tail study includes the lock-free reservoir, which all() omits.
+        long[] values = SyntheticWorkloads.lognormal().generate(200_000, 7L);
+        ExactQuantileBaseline baseline = new ExactQuantileBaseline();
+        for (long v : values) {
+            baseline.add(v);
+        }
+        for (String name : StrategyCatalog.PRODUCTION_RECORDERS) {
+            if (FIXED_BUCKETS.contains(name)) {
+                continue;
+            }
+            SamplingStrategy strategy = StrategyCatalog.create(name, StrategyCatalog.DEFAULT_K, Clock.SYSTEM, 123L);
+            for (long v : values) {
+                strategy.update(v);
+            }
+            for (double q : new double[]{0.50, 0.90}) {
+                double truth = baseline.valueAtQuantile(q);
+                double estimate = strategy.valueAtQuantile(q);
+                assertTrue(ExactQuantileBaseline.relativeError(estimate, truth) < 0.20,
+                        name + " q" + q + " off: got " + estimate + " expected ~" + truth);
+            }
         }
     }
 

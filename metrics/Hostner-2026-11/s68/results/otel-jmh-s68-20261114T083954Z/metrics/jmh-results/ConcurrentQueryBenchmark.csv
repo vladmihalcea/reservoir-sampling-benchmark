@@ -1,0 +1,6 @@
+benchmark,mode,strategy,threads,score,score_error,unit,alloc_rate_norm,app.cpu.mhz,app.cpu.power,app.cpu.power.limit,app.cpu.util,app.temp,app.thermal.throttles,reader,writer
+readWrite,avgt,OpenTelemetry-Explicit,5,745.147,12.3027,ns/op,,4427.05,59.2405,80.0000,31.3477,74.0000,0.00000,1681.07,511.165
+readWrite,avgt,OpenTelemetry-Exponential,5,932.418,28.2752,ns/op,,4364.72,53.2267,80.0000,27.4942,72.0000,0.00000,2866.35,448.934
+readWrite,avgt,Prometheus-Native,5,4721.12,59.1886,ns/op,,4308.05,53.0924,80.0000,33.6833,70.0000,0.00000,22734.9,217.679
+readWrite,avgt,Micrometer-Summary,5,138953,2561.43,ns/op,,4599.41,70.7786,80.0000,37.7117,76.0000,0.00000,690863,975.563
+readWrite,avgt,Dropwizard-ExpDecay,5,21261.9,99.7101,ns/op,,4598.48,77.3142,80.0000,41.8142,81.0000,0.00000,103935,593.450

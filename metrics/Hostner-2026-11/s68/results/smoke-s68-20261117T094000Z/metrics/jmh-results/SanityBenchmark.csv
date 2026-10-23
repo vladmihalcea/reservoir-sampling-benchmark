@@ -1,0 +1,2 @@
+benchmark,mode,threads,score,score_error,unit,alloc_rate_norm,app.cpu.mhz,app.cpu.power,app.cpu.power.limit,app.cpu.util,app.temp,app.thermal.throttles
+update,avgt,1,9.75431,NaN,ns/op,,4595.50,31.9918,80.0000,9.06801,68.0000,0.00000

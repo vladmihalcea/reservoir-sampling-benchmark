@@ -65,7 +65,7 @@ public class RecencyExperimentTest {
                     Clock.Manual clock = new Clock.Manual();
                     long step = Math.max(1, StrategyCatalog.TRACE_SPAN_NANOS / (PRE_SHIFT + POST_SHIFT));
                     SamplingStrategy strategy = StrategyCatalog.create(
-                            strategyName, StrategyCatalog.DEFAULT_K, clock, seed);
+                            strategyName, StrategyCatalog.DEFAULT_K, clock, StrategyCatalog.strategySeed(seed));
 
                     for (long value : pre) {
                         clock.advanceNanos(step);

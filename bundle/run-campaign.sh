@@ -19,7 +19,10 @@
 #   starvation-v1  V1 alone, as in the starvation block (about 8.6 hours): the rerun of 18 Nov, after V1 ran out of
 #                heap in the 17 Nov block; needs DB_HOST and JDBC_PASSWORD
 #   accuracy-e6  E6 QuantileAccuracyExperimentTest alone, as in the accuracy block (about 10 minutes): the rerun of 20 Nov,
-#                after E6 ran past the end of the 50,000-value traces in the 17 Nov block
+#                after E6 ran past the end of the 50,000-value traces in the 17 Nov block; run again on 20 Nov evening
+#                with the captured connection-pool trace (core/src/main/resources/traces/conn-pool-trace.csv.gz)
+#   accuracy-e7  E7 ForwardDecayAlphaSensitivityExperimentTest with 300 repetitions instead of 30 (about 50 minutes):
+#                the 30-repetition intervals of 17 Nov could not separate alpha 0.015 from the best alpha
 #   tail-replay  V2 over the V1 traces: TRACES (a starvation results folder's metrics/VirtualThreads/traces), by default
 #                those of the newest starvation block on this host, so "starvation tail-replay" runs as one campaign
 #   tail-replay-smoke  V2 over the traces of the newest starvation-smoke block on this host, 3 replays
@@ -133,6 +136,9 @@ block_tests() {
             ;;
         accuracy-e6)
             echo "QuantileAccuracyExperimentTest"
+            ;;
+        accuracy-e7)
+            echo "ForwardDecayAlphaSensitivityExperimentTest -Drs.reps=300"
             ;;
         starvation-smoke)
             echo "VirtualThreadPoolExperimentTest $STARVATION_SMOKE"

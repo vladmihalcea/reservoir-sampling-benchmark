@@ -15,10 +15,11 @@ import java.util.SplittableRandom;
  * values follow a heavy-tailed model calibrated to each source, so time-decayed and windowed strategies
  * see realistic inter-arrival spacing rather than the uniform step the synthetic sweep uses.
  * <p>
- * These are model-generated stand-ins committed under {@code resources/traces/} for reproducibility; the
- * same file format accepts a trace captured from a HikariCP/FlexyPool-instrumented run or a Spring Boot
- * app under load ({@link WorkloadTrace#fromCsv}), which is the intended camera-ready replacement. Running
- * {@code main} regenerates the committed CSVs deterministically from a fixed seed.
+ * The HTTP-latency trace under {@code resources/traces/} is still this model-generated stand-in, and running
+ * {@code main} regenerates it deterministically from a fixed seed. The connection-pool trace is no longer
+ * generated: since 20 Nov 2026, {@code conn-pool-trace.csv.gz} is a captured acquisition trace (see
+ * {@link TraceWorkloads}). {@link #connectionPool} still produces the stand-in that E6 swept until then, so the
+ * earlier results stay reproducible.
  *
  * @author Vlad Mihalcea
  */
@@ -48,14 +49,15 @@ public final class TraceGenerator {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        writeCsv(dir.resolve(CONN_POOL_FILE), connectionPool(size, 20250706L));
+        // The connection-pool trace is captured, not generated: write only the HTTP-latency stand-in.
         writeCsv(dir.resolve(HTTP_LATENCY_FILE), httpLatency(size, 20250707L));
-        System.out.printf("Wrote %d-row traces to %s%n", size, dir.toAbsolutePath());
+        System.out.printf("Wrote the %d-row HTTP-latency trace to %s%n", size, dir.toAbsolutePath());
     }
 
     /**
      * Connection-pool acquisition: high arrival rate (~5k req/s), mostly sub-millisecond, with rare
-     * multi-second saturation spikes (2% of acquisitions) when the pool is exhausted.
+     * multi-second saturation spikes (2% of acquisitions) when the pool is exhausted. The stand-in that the
+     * committed {@code conn-pool-trace.csv} held until 20 Nov 2026 (seed 20250706, 50,000 rows).
      */
     public static long[][] connectionPool(int n, long seed) {
         SplittableRandom rnd = new SplittableRandom(seed);

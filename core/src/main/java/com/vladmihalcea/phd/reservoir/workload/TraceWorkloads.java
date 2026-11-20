@@ -8,14 +8,26 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 /**
- * Loads the committed "realistic" traces (see {@link TraceGenerator}) from the classpath and exposes them
- * two ways: as timestamped {@link WorkloadTrace}s (for time-aware replay that honors the recorded
- * inter-arrival gaps) and as plain {@link Workload}s (values only) so the captured traces drop straight
- * into the value-based accuracy sweep (E6) alongside the synthetic distributions. A trace-backed
- * {@code Workload} ignores the requested seed — a captured trace is a fixed sample — and truncates to the
- * requested length.
+ * Loads the committed "realistic" traces from the classpath and exposes them two ways: as timestamped
+ * {@link WorkloadTrace}s (for time-aware replay that honors the recorded inter-arrival gaps) and as plain
+ * {@link Workload}s (values only) so the traces drop straight into the value-based accuracy sweep (E6) alongside
+ * the synthetic distributions. A trace-backed {@code Workload} ignores the requested seed (a trace is a fixed
+ * sample) and truncates to the requested length.
+ * <p>
+ * The two traces:
+ * <ul>
+ *   <li>{@code conn-pool-trace.csv.gz}: captured. It is a byte-identical copy of
+ *       {@code metrics/Hostner-2026-11/s68/results/starvation-s68-20261117T104133Z/metrics/VirtualThreads/traces/hikari-n10-platform-1000.csv.gz}:
+ *       every acquisition (1,397,392 of them in 60 s) of HikariCP with 10 connections and 1,000 platform-thread
+ *       clients, trial 0 of V1 on the Hostner pair (17 Nov 2026), the trace that V2 also replays. Of the
+ *       1,000-client traces, its shape is the closest to the stand-in it replaces (rare multi-second waits: 1.4% above
+ *       1 s against the stand-in's 1.9%), and HikariCP with platform threads is the common production setup.</li>
+ *   <li>{@code http-latency-trace.csv}: the model-generated stand-in of {@link TraceGenerator}.</li>
+ * </ul>
+ * A resource is read gzipped when {@code <name>.gz} is on the classpath, and plain otherwise.
  *
  * @author Vlad Mihalcea
  */
@@ -45,12 +57,20 @@ public final class TraceWorkloads {
 
     /** Whether the committed trace resources are present on the classpath. */
     public static boolean available() {
-        try (InputStream in = TraceWorkloads.class.getResourceAsStream(
-                RESOURCE_DIR + TraceGenerator.CONN_POOL_FILE)) {
+        try (InputStream in = open(RESOURCE_DIR + TraceGenerator.CONN_POOL_FILE)) {
             return in != null;
         } catch (IOException e) {
             return false;
         }
+    }
+
+    /** Opens {@code resource}, or its gzipped copy {@code resource + ".gz"} when that is on the classpath. */
+    private static InputStream open(String resource) throws IOException {
+        InputStream gzipped = TraceWorkloads.class.getResourceAsStream(resource + ".gz");
+        if (gzipped != null) {
+            return new GZIPInputStream(gzipped, 1 << 16);
+        }
+        return TraceWorkloads.class.getResourceAsStream(resource);
     }
 
     private static Workload asWorkload(WorkloadTrace trace) {
@@ -73,10 +93,10 @@ public final class TraceWorkloads {
     }
 
     private static WorkloadTrace load(String name, String resource) {
-        try (InputStream in = TraceWorkloads.class.getResourceAsStream(resource)) {
+        try (InputStream in = open(resource)) {
             if (in == null) {
                 throw new IllegalStateException("Trace resource not found on classpath: " + resource
-                        + " — run TraceGenerator to (re)create it under src/main/resources/traces.");
+                        + " (or " + resource + ".gz) under src/main/resources/traces.");
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
                 List<long[]> rows = new ArrayList<>();

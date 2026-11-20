@@ -156,6 +156,15 @@ in V2 for the unseeded Dropwizard reservoirs, and a V6 response time that cannot
    50,000; use the rows of the rerun. The fix (a trace's stream is at most its own length, and its row carries that
    length) is in the same bundle, with the block `accuracy-e6`, about 10 minutes, PostgreSQL stopped: on s66, after
    V1, `start-campaign.sh accuracy-e6 "accuracy-e6"`.
+5. **20 Nov, after the review of V1 and E6: a captured trace and a longer E7.** Steps 3 and 4 passed (V1 5 of 5 trials,
+   06:15 to 14:45 UTC; E6 05:59 to 06:05 UTC). The review left two gaps. First, E6's connection-pool trace was a model
+   stand-in. It is now the captured trace that V2 replays (HikariCP, 10 connections, 1,000 platform-thread clients,
+   trial 0 of 17 Nov, 1,397,392 acquisitions), committed as `core/src/main/resources/traces/conn-pool-trace.csv.gz`
+   (see `TraceWorkloads`); the HTTP-latency trace stays the stand-in. Second, E7's 30 repetitions gave intervals too
+   wide to separate alpha 0.015 from the best alpha on three of its four workloads. The block `accuracy-e7` runs it
+   with 300; the seeds are `3000 + rep`, so the first 30 are those of 17 Nov. Both blocks are deterministic and need
+   no database, so they run on s68 (PostgreSQL is stopped there) while s66 is set up for the USL campaign:
+   `start-campaign.sh accuracy-e6e7 "accuracy-e6 accuracy-e7"`, about one hour.
 
 The blocks of 13 to 17 Nov stay in `metrics/Hostner-2026-11/`; the new folders supersede their `starvation`,
 `tail-replay`, `vt-live`, and `accuracy` results, and `vt-jmh-long` supersedes `vt-jmh` and the V6 cells of

@@ -40,8 +40,8 @@ that and measures accuracy, memory and throughput against reference algorithms f
 - **E4 memory** — retained footprint by strategy and *k* (JOL) + per-update allocation rate
   (`gc.alloc.rate.norm`, enabled with `-Djmh.profGc=true`).
 - **E5 query cost** — cost of reading p99, idle and under concurrent updates (grouped reader/writer) (JMH).
-- **E6 accuracy** — estimated vs. exact quantiles over 8 synthetic workloads plus captured traces, 30
-  seeds, with 95% CIs.
+- **E6 accuracy** — estimated vs. exact quantiles over 8 synthetic workloads plus two traces (a captured
+  connection-pool trace and a model-generated HTTP-latency one), 30 seeds, with 95% CIs.
 - **E6b samples-for-accuracy** — smallest reservoir size *k* each strategy needs to reach a target p99
   error (the memory-for-accuracy headline).
 - **E7 forward-decay α sensitivity** — tail-error vs. α, exposing the unvalidated hardcoded 0.015.
@@ -103,9 +103,11 @@ Full-scale runs (publication scale) drop the `-Drs.*` overrides and pass the pub
 `-Djmh.warmup=15 -Djmh.iters=30 -Djmh.secs=3` (the harness defaults to a lighter 5/10/2s pass for quick
 iteration); see `CLAUDE.md` and `PLAN.md`.
 
-The realistic traces under `core/src/main/resources/traces/` are model-generated stand-ins produced by
-`TraceGenerator`; drop a trace captured from an instrumented app (same `timestamp_ns,value_ns` format) in
-their place for the camera-ready run.
+The realistic traces live under `core/src/main/resources/traces/` (`timestamp_ns,value_ns`, read gzipped when the
+resource ends in `.gz`). The connection-pool trace (`conn-pool-trace.csv.gz`) is captured: every acquisition of
+HikariCP with 10 connections and 1,000 platform-thread clients on the Hostner pair (V1, 17 Nov 2026), see
+`TraceWorkloads`. The HTTP-latency trace (`http-latency-trace.csv`) is still a model-generated stand-in from
+`TraceGenerator`; drop a captured trace in its place for the camera-ready run.
 
 Charts land under `metrics/<Figure>/` as `.csv` + `.gp` + `.svg` + `.pdf`, one folder per figure;
 `render-charts.bat` first runs `FiguresFromJmh` to reshape `metrics/jmh-results/` into the per-figure CSVs.
